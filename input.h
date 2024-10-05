@@ -75,3 +75,9 @@ BAG::~BAG()
     yLocation = 0;
     zLocation = 0;
 };
+
+struct ITEMLIST
+{
+	ITEM* item;
+	ITEMLIST* nextItem;
+};

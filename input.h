@@ -1,3 +1,7 @@
+#pragma once
+
+// 구조
+// structures
 struct ITEM
 {
     ITEM(int _x, int _y, int _z, int _weight);
@@ -16,28 +20,6 @@ struct ITEM
     int zLocation;
 };
 
-ITEM::ITEM(int _x, int _y, int _z, int _weight)
-{
-    x = _x;
-    y = _y;
-    z = _z;
-    weight = _weight;
-    xLocation = 0;
-    yLocation = 0;
-    zLocation = 0;
-};
-
-ITEM::~ITEM()
-{
-    x = 0;
-    y = 0;
-    z = 0;
-    weight = 0;
-    xLocation = 0;
-    yLocation = 0;
-    zLocation = 0;
-};
-
 struct BAG
 {
     BAG(int _x, int _y, int _z, int _maxCapacity);
@@ -54,30 +36,15 @@ struct BAG
     int zLocation;
 };
 
-BAG::BAG(int _x, int _y, int _z, int _maxCapacity)
-{
-    x = _x;
-    y = _y;
-    z = _z;
-    maxCapacity = _maxCapacity;
-    xLocation = 0;
-    yLocation = 0;
-    zLocation = 0;
-};
-
-BAG::~BAG()
-{
-    x = 0;
-    y = 0;
-    z = 0;
-    maxCapacity = 0;
-    xLocation = 0;
-    yLocation = 0;
-    zLocation = 0;
-};
-
 struct ITEMLIST
 {
+	ITEMLIST(ITEM* _item);
+	~ITEMLIST();
+
 	ITEM* item;
 	ITEMLIST* nextItem;
 };
+
+// 함수
+// functions
+void getInput();

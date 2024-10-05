@@ -1,0 +1,106 @@
+#include <iostream>
+
+#include "input.h"
+
+#define INPUTSIZE 4
+
+int main()
+{
+	// ======================= 임시로 입력 고정 =====================================
+	int inputSize = INPUTSIZE;
+
+	// bag init
+	int bagx[INPUTSIZE], bagy[INPUTSIZE], bagz[INPUTSIZE], bagCap[INPUTSIZE];
+
+	bagx[0]=20;
+	bagx[1]=30;
+	bagx[2]=40;
+	bagx[3]=50;
+
+	bagy[0]=30;
+	bagy[1]=40;
+	bagy[2]=50;
+	bagy[3]=60;
+
+	bagz[0]=10;
+	bagz[1]=20;
+	bagz[2]=30;
+	bagz[3]=40;
+
+	bagCap[0]=30;
+	bagCap[1]=40;
+	bagCap[2]=45;
+	bagCap[3]=40;
+
+	BAG* bags[4];
+	for(int i=0;i<inputSize;++i)
+		bags[i]= new BAG(bagx[i], bagy[i], bagz[i], bagCap[i]);
+
+	// item init
+	int xinputs[INPUTSIZE], yinputs[INPUTSIZE], zinputs[INPUTSIZE], weightInputs[INPUTSIZE];
+
+	xinputs[0]=4;
+	xinputs[1]=7;
+	xinputs[2]=3;
+	xinputs[3]=10;
+
+	yinputs[0]=8;
+	yinputs[1]=3;
+	yinputs[2]=4;
+	yinputs[3]=10;
+
+	zinputs[0]=4;
+	zinputs[1]=7;
+	zinputs[2]=1;
+	zinputs[3]=8;
+
+	weightInputs[0]=10;
+	weightInputs[1]=23;
+	weightInputs[2]=4;
+	weightInputs[3]=103;
+
+	ITEMLIST* head = new ITEMLIST(nullptr);
+	ITEMLIST* currentPtr = head;
+
+	ITEM* items[4];
+
+	for(int i =0;i<inputSize;++i)
+	{
+		items[i]= new ITEM(xinputs[i], yinputs[i], zinputs[i], weightInputs[i]);
+		ITEMLIST* newElement=new ITEMLIST(items[i]);
+	}
+
+	// ===============================================================================
+
+	// 입력받기
+	// get input
+
+	// 그리디
+	// put into greedy
+
+	// 다이나믹프로그래밍
+	// put into dp
+
+	// 패킹
+	// put into packing
+
+	// 브랜치&바운드
+	// put into B&B
+	
+	// free whole ITEMLIST
+	ITEMLIST* prevPtr;
+	prevPtr=head;
+	currentPtr=head->nextItem;
+
+	for(int i =0;i<inputSize;++i)
+	{
+		delete bags[i];
+		delete prevPtr;
+
+		prevPtr=currentPtr;
+		if(currentPtr->nextItem !=nullptr)
+			currentPtr=currentPtr->nextItem;
+	}
+
+	return 0;	
+}

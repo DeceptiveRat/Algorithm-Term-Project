@@ -4,45 +4,22 @@
 // structures
 struct ITEM
 {
-    ITEM(int _x, int _y, int _z, int _weight);
+	ITEM();
     ~ITEM();
 
     // x = 폭, y = 너비, z = 높이
     // x = width, y = length, z = height
-    int x;
-    int y;
-    int z;
-
-    int weight;
-
-    int xLocation;
-    int yLocation;
-    int zLocation;
+    int x, y, z, weight;
+	
+	int bagNumber, xLocation, yLocation, zLocation;
 };
 
 struct BAG
 {
-    BAG(int _x, int _y, int _z, int _maxCapacity);
+	BAG();
     ~BAG();
 
-    int x;
-    int y;
-    int z;
-
-    int maxCapacity;
-
-    int xLocation;
-    int yLocation;
-    int zLocation;
-};
-
-struct ITEMLIST
-{
-	ITEMLIST(ITEM* _item);
-	~ITEMLIST();
-
-	ITEM* item;
-	ITEMLIST* nextItem;
+    int x, y, z, maxCapacity;
 };
 
 // 함수

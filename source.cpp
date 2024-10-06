@@ -32,9 +32,14 @@ int main()
 	bagCap[2]=45;
 	bagCap[3]=40;
 
-	BAG* bags[4];
+	BAG* bags = new BAG[inputSize];
 	for(int i=0;i<inputSize;++i)
-		bags[i]= new BAG(bagx[i], bagy[i], bagz[i], bagCap[i]);
+	{
+		bags[i].x=bagx[i];
+		bags[i].y=bagy[i];
+		bags[i].z=bagz[i];
+		bags[i].maxCapacity=bagCap[i];
+	}
 
 	// item init
 	int xinputs[INPUTSIZE], yinputs[INPUTSIZE], zinputs[INPUTSIZE], weightInputs[INPUTSIZE];
@@ -59,15 +64,13 @@ int main()
 	weightInputs[2]=4;
 	weightInputs[3]=103;
 
-	ITEMLIST* head = new ITEMLIST(nullptr);
-	ITEMLIST* currentPtr = head;
-
-	ITEM* items[4];
-
-	for(int i =0;i<inputSize;++i)
+	ITEM* items = new ITEM[inputSize];
+	for(int i=0;i<inputSize;++i)
 	{
-		items[i]= new ITEM(xinputs[i], yinputs[i], zinputs[i], weightInputs[i]);
-		ITEMLIST* newElement=new ITEMLIST(items[i]);
+		items[i].x=xinputs[i];
+		items[i].y=yinputs[i];
+		items[i].z=zinputs[i];
+		items[i].weight=weightInputs[i];
 	}
 
 	// ===============================================================================
@@ -88,19 +91,8 @@ int main()
 	// put into B&B
 	
 	// free whole ITEMLIST
-	ITEMLIST* prevPtr;
-	prevPtr=head;
-	currentPtr=head->nextItem;
-
-	for(int i =0;i<inputSize;++i)
-	{
-		delete bags[i];
-		delete prevPtr;
-
-		prevPtr=currentPtr;
-		if(currentPtr->nextItem !=nullptr)
-			currentPtr=currentPtr->nextItem;
-	}
+	delete[] bags;
+	delete[] items;
 
 	return 0;	
 }

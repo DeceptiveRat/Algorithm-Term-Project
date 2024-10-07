@@ -46,7 +46,7 @@ bool QUEUE::isEmpty()
 		return false;
 }
 
-int bound()
+int bound(BAG* bagState, int level)
 {
 	return 0;
 }
@@ -60,7 +60,7 @@ int getMinBagCount(const ITEM* items, const BAG* bags, int itemCount)
 
 	// dummy node
 	popped.level=-1;
-	popped.weight=0;
+	popped.bagState = nullptr;
 	popped.bagBound=500;
 	queue.push(popped);
 
@@ -74,6 +74,9 @@ int getMinBagCount(const ITEM* items, const BAG* bags, int itemCount)
 			continue;
 		else
 			toPush.level = popped.level+1;
+
+		// try putting current item into each bag or none of them
+		// if their bounds are greater than the current minimum bag count, don't push
 	}
 
 	return 0;

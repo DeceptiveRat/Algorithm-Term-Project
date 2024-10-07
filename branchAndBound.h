@@ -8,13 +8,11 @@ struct NODE
 	// item on the list, as well as the level of the tree
 	int level;
 
-	// total weight until now
-	int weight;
+	// need to keep track of each of the bags so we can choose where to put it in
+	BAG* bagState;
 	
 	// lower bound for bag count
 	int bagBound;
-
-	// need to keep track of each of the bags so we can choose where to put it in
 };
 
 struct QUEUE
@@ -33,7 +31,7 @@ struct QUEUE
 	bool isEmpty();
 };
 
-int bound();
+int bound(BAG* bagState, int level);
 int getMinBagCount(const ITEM* items, const BAG* bags, int itemCount);
 void mergeSort();
 void merge();

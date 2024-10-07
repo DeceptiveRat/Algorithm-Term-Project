@@ -23,8 +23,22 @@ ITEM::~ITEM()
     zLocation = 0;
 };
 
+ITEMLIST::ITEMLIST(ITEM itemToInclude)
+{
+	ITEM *item = new ITEM;
+	*item = itemToInclude;
+
+	nextItem=nullptr;
+}
+
+ITEMLIST::~ITEMLIST()
+{
+	delete item;
+}
+
 BAG::BAG()
 {
+	
 };
 
 BAG::~BAG()
@@ -33,6 +47,21 @@ BAG::~BAG()
     y = 0;
     z = 0;
     maxCapacity = 0;
+};
+
+bool BAG::putIn(ITEM itemToCheck)
+{
+	ITEMLIST* currentPtr;
+	currentPtr = itemsInside;
+
+	//check all items in the list to see if there is room
+	for(int i=0;i<itemCount;++i)
+	{
+		// how do I decide where to put it?
+		if(itemToCheck.
+	}
+		
+	return true;
 };
 
 void getInput()

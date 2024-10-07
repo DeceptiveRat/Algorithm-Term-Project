@@ -14,12 +14,30 @@ struct ITEM
 	int bagNumber, xLocation, yLocation, zLocation;
 };
 
+struct ITEMLIST
+{
+	ITEMLIST(ITEM itemToInclude);
+	~ITEMLIST();
+
+	ITEM* item;
+	ITEMLIST* nextItem;
+};
+
 struct BAG
 {
 	BAG();
     ~BAG();
 
     int x, y, z, maxCapacity;
+
+	ITEMLIST* itemsInside;
+	int itemCount;
+
+	/*
+	 * Return value: true if item was added to list, false if item wasn't added because there was no space
+	 */
+	bool putIn(ITEM itemToCheck);
+
 };
 
 // 함수

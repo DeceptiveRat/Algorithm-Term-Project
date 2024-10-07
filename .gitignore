@@ -1,0 +1,4 @@
+exe
+debug_options.py
+*.o
+Makefile

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>니짐내짐</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>수화물 제한</h1>
+        <div class="form-group">
+            <h3><label for="weight">수화물 제한 무게</label></h3>
+            <input type="number" id="weight" placeholder="예: 23"> <span class="unit">kg</span>
+        </div>
+        <div class="form-group">
+            <h3><label for="width">수화물 제한 크기</label></h3>
+            <div class="combined-input">
+                <label for="width">가로</label>
+                <input type="number" id="width" placeholder="가로"> <span class="unit">cm</span>
+            </div>
+            <div class="combined-input">
+                <label for="length">세로</label>
+                <input type="number" id="length" placeholder="세로"> <span class="unit">cm</span>
+            </div>
+            <div class="combined-input">
+                <label for="height">높이</label>
+                <input type="number" id="height" placeholder="높이"> <span class="unit">cm</span>
+            </div>
+        </div>
+        <button class="confirm-btn" onclick="navigateToPage('item_select.html')">확인</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

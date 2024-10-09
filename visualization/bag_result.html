@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>니짐내짐</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        /* Flex 레이아웃 설정 */
+        .flex-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            margin: 30px 0;
+        }
+
+        /* 두 개의 영역 */
+        .area {
+            width: 40%;
+            height: 500px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        /* 클릭 가능한 박스 스타일 */
+        .clickable-box {
+            width: 200px;
+            height: 200px;
+            background-color: #e0e0e0;
+            border: 1px solid #bbb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin: 20px;
+        }
+
+        .clickable-box:hover {
+            background-color: #d0d0d0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>최소 가방 개수</h3>
+
+        <!-- 두 개의 영역을 Flex로 배치 -->
+        <div class="flex-container">
+            <!-- 왼쪽 영역 -->
+            <div class="area">
+                <h4>최소 가방 개수</h4>
+                <div class="clickable-box" onclick="navigateToPage('layout_confirm.html')">클릭해서 물건 배치 확인하기</div>
+                <p>화물용 하나!</p>
+            </div>
+
+            <!-- 오른쪽 영역 -->
+            <div class="area">
+                <h4>최소 가방 크기</h4>
+                <div class="clickable-box" onclick="navigateToPage('layout_confirm.html')">클릭해서 물건 배치 확인하기</div>
+                <div class="clickable-box" onclick="navigateToPage('layout_confirm.html')">클릭해서 물건 배치 확인하기</div>
+                <p>기내용 하나! <br> 크로스백 하나!</p>
+            </div>
+        </div>
+
+        <button class="confirm-btn" onclick="navigateToPage('index.html')">다시하기</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

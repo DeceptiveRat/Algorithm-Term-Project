@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>니짐내짐</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+    .area {
+                width: 40%;
+                height: 300px;
+                background-color: #f0f0f0;
+                border: 1px solid #ccc;
+                padding: 20px;
+                text-align: left;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3>최소 가방 개수</h3>
+        <div class="content-wrapper">
+            <!-- 왼쪽 정보 Div -->
+            <div class="side-info">
+                <h3>넣은 물건</h3>
+                <ul id="selected-items-list">
+                    <!-- 선택한 아이템 목록이 여기에 추가됨 -->
+                </ul>
+            </div>
+
+            <!-- 슬라이더와 캔버스 영역 -->
+            <div>
+                <div class="slider-container">
+                    <label for="layerSlider">Layer:</label>
+                    <input type="range" id="layerSlider" min="0" max="2" step="1" value="0">
+                </div>
+                <canvas id="canvas2D" width="500" height="500"></canvas>
+            </div>
+
+            <!-- 오른쪽 정보 Div -->
+            <div class="side-info">
+                <h3>다른 가방</h3>
+                <ul id="selected-bags-list">
+                    <!-- 선택한 가방 목록이 여기에 추가됨 -->
+                </ul>
+            </div>
+        </div>
+
+        <button class="confirm-btn" onclick="navigateToPage('index.html')">다시하기</button>
+    </div>
+
+    <script>
+        // 저장된 아이템 및 가방 정보를 불러와 화면에 표시하는 함수
+        function displaySelectedItemsAndBags() {
+            const selectedItems = JSON.parse(localStorage.getItem('selectedItems')) || [];
+            const selectedBags = JSON.parse(localStorage.getItem('selectedBags')) || [];
+
+            // 선택한 아이템 리스트 표시
+            const selectedItemsList = document.getElementById('selected-items-list');
+            selectedItems.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                selectedItemsList.appendChild(li);
+            });
+
+            // 선택한 가방 리스트 표시
+            const selectedBagsList = document.getElementById('selected-bags-list');
+            selectedBags.forEach(bag => {
+                const li = document.createElement('li');
+                li.textContent = bag;
+                selectedBagsList.appendChild(li);
+            });
+        }
+
+        // 페이지가 로드될 때 저장된 아이템 및 가방 정보를 불러옴
+        window.onload = displaySelectedItemsAndBags;
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

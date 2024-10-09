@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>넣을 물건 선택</title>
+    <style>
+        /* 전체 레이아웃 스타일 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 80%;
+            border: 2px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .item-list, .selected-items {
+            width: 45%;
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+        }
+
+        .item-list {
+            float: left; /* 왼쪽 정렬 */
+        }
+
+        .selected-items {
+            float: right; /* 오른쪽 정렬 */
+        }
+
+        /* 2열 배치를 위한 Flexbox */
+        .items {
+            display: flex;
+            flex-wrap: wrap; /* 줄바꿈을 허용하여 2열 배치 가능하게 함 */
+            justify-content: space-between; /* 양 끝 정렬 */
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 45%; /* 아이템 너비를 2열로 나눔 */
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            margin: 10px 0; /* 항목 간 여백 */
+        }
+
+        .item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        /* 확인 버튼 스타일 */
+        .confirm-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .confirm-btn:hover {
+            background-color: #45a049;
+        }
+
+        h3 {
+            margin-top: 0;
+            text-align: left;
+        }
+
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+    <div class="container clearfix">
+        <!-- 왼쪽: 넣을 물건 목록 -->
+        <div class="item-list">
+            <h3>넣을 물건</h3>
+            <div class="items">
+                <div class="item">
+                    <input type="checkbox" id="item1" onchange="toggleItem('item1', '노트북')">
+                    <label for="item1">노트북</label>
+                </div>
+                <div class="item">
+                    <input type="checkbox" id="item2" onchange="toggleItem('item2', '여권')">
+                    <label for="item2">여권</label>
+                </div>
+                <div class="item">
+                    <input type="checkbox" id="item3" onchange="toggleItem('item3', '후드티')">
+                    <label for="item3">후드티</label>
+                </div>
+                <div class="item">
+                    <input type="checkbox" id="item4" onchange="toggleItem('item4', '반바지')">
+                    <label for="item4">반바지</label>
+                </div>
+                <div class="item">
+                    <input type="checkbox" id="item5" onchange="toggleItem('item5', '책')">
+                    <label for="item5">책</label>
+                </div>
+                <div class="item">
+                    <input type="checkbox" id="item6" onchange="toggleItem('item6', '충전기')">
+                    <label for="item6">충전기</label>
+                </div>
+                <div class="item">
+                    <input type="checkbox" id="item7" onchange="toggleItem('item7', '우산')">
+                    <label for="item7">우산</label>
+                </div>
+                <div class="item">
+                    <input type="checkbox" id="item8" onchange="toggleItem('item8', '모자')">
+                    <label for="item8">모자</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 오른쪽: 선택한 물건 목록 -->
+        <div class="selected-items">
+            <h3>선택한 물건</h3>
+            <div class="items" id="selected-items-container">
+                <!-- 선택한 물건이 여기에 추가됨 -->
+            </div>
+        </div>
+
+        <!-- 확인 버튼 -->
+        <button class="confirm-btn" onclick="confirmSelection('bag_select.html')">확인</button>
+    </div>
+
+    <script>
+        // 선택한 물건 추가/제거
+        function toggleItem(itemId, itemName) {
+            const selectedItemsContainer = document.getElementById('selected-items-container');
+            const itemCheckbox = document.getElementById(itemId);
+
+            if (itemCheckbox.checked) {
+                // 체크되었을 때 선택한 목록에 추가
+                const newItem = document.createElement('div');
+                newItem.className = 'item';
+                newItem.id = `selected-${itemId}`;
+                newItem.innerHTML = `
+                    <input type="checkbox" checked disabled>
+                    <label>${itemName}</label>
+                `;
+                selectedItemsContainer.appendChild(newItem);
+            } else {
+                // 체크 해제되었을 때 선택한 목록에서 제거
+                const itemToRemove = document.getElementById(`selected-${itemId}`);
+                if (itemToRemove) {
+                    selectedItemsContainer.removeChild(itemToRemove);
+                }
+            }
+        }
+
+        // 확인 버튼 클릭 시 페이지 이동
+        function confirmSelection(nextPage) {
+            const selectedItems = [];
+            document.querySelectorAll('.item input[type="checkbox"]').forEach(item => {
+                if (item.checked) {
+                    selectedItems.push(item.value);
+                }
+            });
+
+            // localStorage에 저장
+            localStorage.setItem('selectedItems', JSON.stringify(selectedItems));
+            
+            window.location.href = nextPage;
+        }
+    </script>
+</body>
+</html>

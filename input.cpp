@@ -7,8 +7,6 @@
 
 #include "input.h"
 
-unsigned short bitTable[8] = {0, 0x80, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc, 0xfe};
-
 // 생성자와 파괴자
 // constructors and destructors
 ITEM::ITEM()
@@ -59,40 +57,66 @@ BAG::~BAG()
 void BAG::initMap()
 {
     int size = (x * y * z - 1) / 8 + 1;
+	// deleted in ~BAG()
     map = new unsigned char[size];
 
     for(int i = 0; i < size; ++i)
         map[i] = 0;
+
+	valueToKey[128] = 0;
+	valueToKey[64] = 1;
+	valueToKey[32] = 2;
+	valueToKey[16] = 3;
+	valueToKey[8] = 4;
+	valueToKey[4] = 5;
+	valueToKey[2] = 6;
+	valueToKey[1] = 7;
+	valueToKey[192] = 8;
+	valueToKey[96] = 9;
+	valueToKey[48] = 10;
+	valueToKey[24] = 11;
+	valueToKey[12] = 12;
+	valueToKey[6] = 13;
+	valueToKey[3] = 14;
+	valueToKey[224] = 15;
+	valueToKey[112] = 16;
+	valueToKey[56] = 17;
+	valueToKey[28] = 18;
+	valueToKey[14] = 19;
+	valueToKey[7] = 20;
+	valueToKey[240] = 21;
+	valueToKey[120] = 22;
+	valueToKey[60] = 23;
+	valueToKey[30] = 24;
+	valueToKey[15] = 25;
+	valueToKey[248] = 26;
+	valueToKey[124] = 27;
+	valueToKey[62] = 28;
+	valueToKey[31] = 29;
+	valueToKey[252] = 30;
+	valueToKey[126] = 31;
+	valueToKey[63] = 32;
+	valueToKey[254] = 33;
+	valueToKey[127] = 34;
+	valueToKey[255] = 35;
 }
 
-bool BAG::putIn(ITEM itemToCheck)
+void BAG::printItemMap(ITEM itemToCheck)
 {
-    /*
-    	ITEMLIST* currentPtr;
-    	currentPtr = itemsInside;
-
-    	//check all items in the list to see if there is room
-    	for(int i=0;i<itemCount;++i)
-    	{
-    		if(itemToCheck.x
-    	}
-    */
-
-    // experimenting -------------------------------------------------------------------------------------
     int itemxBytes = itemToCheck.x / 8;
     unsigned short itemxBits = bitTable[itemToCheck.x % 8];
 
     std::ofstream output;
+	// closed in printItemMap
     output.open("itemMap.txt");
 
     // buid an array with the item
     int size = (x * y * z - 1) / 8 + 1;
+	// deleted in printItemMap()
     itemMap = new unsigned char[size];
-
     for(int i = 0; i < size; ++i)
         itemMap[i] = 0;
 
-    // total bit shift variable for quicker calculation
     int totalBitShift = 0;
 
     // used to treat the char array as a short so that we can bitwise or past 1 byte
@@ -121,11 +145,99 @@ bool BAG::putIn(ITEM itemToCheck)
         }
     }
 
-	/*
-    unsigned int *itemMapPtr = (unsigned int*)itemMap;
-	unsigned int *bagMapPtr = (unsigned int*)map;
+	totalBitShift = 0;
+	char bitmask = 1<<7;
 
-	// set up parameters that will be used
+	// print map
+	for(int i =0;i<z;++i)
+	{
+		output<<"Level: "<<i<<'\n';
+		for(int j=0;j<y;++j)
+		{
+			for(int k=0;k<x;++k)
+			{
+				output<<((itemMap[totalBitShift/8]>>(7-(totalBitShift%8))) & 1)<<" ";
+				++totalBitShift;
+			}
+
+			output<<"\n";
+		}
+
+		output<<"\n";
+	}
+
+    delete[] itemMap;
+    output.close();
+}
+
+void BAG::printBagMap()
+{
+    std::ofstream output;
+	// closed in printBagMap
+    output.open("bagMap.txt");
+
+	int totalBitShift = 0;
+
+	for(int i =0;i<z;++i)
+	{
+		output<<"Level: "<<i<<'\n';
+		for(int j=0;j<y;++j)
+		{
+			for(int k=0;k<x;++k)
+			{
+				output<<((map[totalBitShift/8]>>(7-(totalBitShift%8))) & 1)<<" ";
+				++totalBitShift;
+			}
+
+			output<<"\n";
+		}
+
+		output<<"\n";
+	}
+
+	output.close();
+}
+
+bool BAG::putIn(ITEM itemToCheck)
+{
+    /*
+    	ITEMLIST* currentPtr;
+    	currentPtr = itemsInside;
+
+    	//check all items in the list to see if there is room
+    	for(int i=0;i<itemCount;++i)
+    	{
+    		if(itemToCheck.x
+    	}
+    */
+
+    // experimenting -------------------------------------------------------------------------------------
+    int size = (x * y * z - 1) / 8 + 1;
+	int totalBitShift = 0;
+
+	// deleted in putIn()
+	itemMap = new unsigned char[(x-1)/8+1];
+
+    int itemxBytes = itemToCheck.x / 8;
+    unsigned short itemxBits = bitTable[itemToCheck.x % 8];
+	unsigned short* ptr;
+
+	for(int k = 0; k < itemxBytes; ++k)
+	{
+		int bitShiftK = totalBitShift % 8;
+		ptr = (unsigned short*)&itemMap[totalBitShift / 8];
+
+		*ptr |= ntohs(0x00ff << (8 - bitShiftK));
+
+		totalBitShift += 8;
+	}
+
+	ptr = (unsigned short*)&itemMap[totalBitShift / 8];
+	*ptr |= ntohs(itemxBits << (8 - totalBitShift % 8));
+
+	unsigned int *bagMapPtr = (unsigned int*)map;
+	unsigned int *itemMapPtr = (unsigned int*)itemMap;
+
     int xMaxShift = x - itemToCheck.x;
     int yMaxShift = y - itemToCheck.y;
     int zMaxShift = z - itemToCheck.z;
@@ -137,37 +249,11 @@ bool BAG::putIn(ITEM itemToCheck)
 		{
 			for(int k = 0;k<xMaxShift;++k)
 			{
-				totalBitShift = (x*y*z + x*j +k);
-
 			}
 		}
 	}
-	*/
 
-    	totalBitShift = 0;
-    	char bitmask = 1<<7;
-
-    	// print for debugging purposes
-    	for(int i =0;i<z;++i)
-    	{
-    		output<<"Level: "<<i<<'\n';
-    		for(int j=0;j<y;++j)
-    		{
-    			for(int k=0;k<x;++k)
-    			{
-    				output<<((itemMap[totalBitShift/8]>>(7-(totalBitShift%8))) & 1)<<" ";
-    				++totalBitShift;
-    			}
-
-    			output<<"\n";
-    		}
-
-    		output<<"\n";
-    	}
-
-    delete[] itemMap;
-    output.close();
-
+	delete[] itemMap;
     return true;
 };
 

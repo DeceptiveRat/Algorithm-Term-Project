@@ -73,7 +73,10 @@ int main()
 		items[i].weight=weightInputs[i];
 	}
 
-	bags[0].putIn(items[3]);
+	bags[0].initMap();
+	int a, b;
+	std::cin>>a>>b;
+	std::cout<<bags[0].shiftMap[a][b];
 	// ===============================================================================
 
 	// 입력받기

@@ -47,17 +47,17 @@ int main()
 	xinputs[0]=4;
 	xinputs[1]=7;
 	xinputs[2]=3;
-	xinputs[3]=10;
+	xinputs[3]=13;
 
 	yinputs[0]=8;
 	yinputs[1]=3;
 	yinputs[2]=4;
-	yinputs[3]=10;
+	yinputs[3]=15;
 
 	zinputs[0]=4;
 	zinputs[1]=7;
 	zinputs[2]=1;
-	zinputs[3]=8;
+	zinputs[3]=9;
 
 	weightInputs[0]=10;
 	weightInputs[1]=23;
@@ -73,6 +73,7 @@ int main()
 		items[i].weight=weightInputs[i];
 	}
 
+	bags[0].putIn(items[3]);
 	// ===============================================================================
 
 	// 입력받기
@@ -83,9 +84,6 @@ int main()
 
 	// 다이나믹프로그래밍
 	// put into dp
-
-	// 패킹
-	// put into packing
 
 	// 브랜치&바운드
 	// put into B&B

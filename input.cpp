@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string.h>
+#include <string>
+
 // for debugging
 #include <fstream>
 // for ntohs()
@@ -65,16 +67,15 @@ void BAG::initMap()
 
 }
 
-void BAG::printItemMap(ITEM itemToCheck)
+void BAG::printItemMap(ITEM itemToCheck, std::string fileName)
 {
     int itemxBytes = itemToCheck.x / 8;
     unsigned short itemxBits = bitTable[itemToCheck.x % 8];
 
     std::ofstream output;
 	// closed in printItemMap
-    output.open("itemMap.txt");
+    output.open(fileName);
 
-    // buid an array with the item
     int size = (x * y * z - 1) / 8 + 1;
 	// deleted in printItemMap()
     itemMap = new unsigned char[size];
@@ -86,7 +87,6 @@ void BAG::printItemMap(ITEM itemToCheck)
     // used to treat the char array as a short so that we can bitwise or past 1 byte
     unsigned short *ptr;
 
-    // create item map
     for(int i = 0; i < itemToCheck.z; ++i)
     {
         for(int j = 0; j < itemToCheck.y; ++j)
@@ -134,11 +134,11 @@ void BAG::printItemMap(ITEM itemToCheck)
     output.close();
 }
 
-void BAG::printBagMap()
+void BAG::printBagMap(std::string fileName)
 {
     std::ofstream output;
 	// closed in printBagMap
-    output.open("bagMap.txt");
+    output.open(fileName);
 
 	int totalBitShift = 0;
 
@@ -176,16 +176,16 @@ bool BAG::putIn(ITEM itemToCheck)
     */
 
     // experimenting -------------------------------------------------------------------------------------
-    int size = (x * y * z - 1) / 8 + 1;
+
 	int totalBitShift = 0;
+	int size = (x-1)/8 +1;
 
 	// deleted in putIn()
-	itemMap = new unsigned char[(x-1)/8+1];
+	itemMap = new unsigned char[size];
 
-    int itemxBytes = itemToCheck.x / 8;
-    unsigned short itemxBits = bitTable[itemToCheck.x % 8];
+	int itemxBytes = itemToCheck.x / 8;
+	unsigned short itemxBits = bitTable[itemToCheck.x % 8];
 	unsigned short* ptr;
-
 	for(int k = 0; k < itemxBytes; ++k)
 	{
 		int bitShiftK = totalBitShift % 8;
@@ -198,23 +198,84 @@ bool BAG::putIn(ITEM itemToCheck)
 	ptr = (unsigned short*)&itemMap[totalBitShift / 8];
 	*ptr |= ntohs(itemxBits << (8 - totalBitShift % 8));
 
-	unsigned char *bagMapPtr = (unsigned char*)map;
-	unsigned char *itemMapPtr = (unsigned char*)itemMap;
     int xMaxShift = x - itemToCheck.x;
     int yMaxShift = y - itemToCheck.y;
     int zMaxShift = z - itemToCheck.z;
 
-	for(int i = 0;i<zMaxShift;++i)
+	if(itemToCheck.x == 1)
 	{
-		for(int j = 0;j<yMaxShift;++j)
+		unsigned char byte = 128;
+
+		for(int i = 0;i<zMaxShift;++i)
 		{
-			for(int k = 0;k<xMaxShift;++k)
+			for(int j = 0;j<yMaxShift;++j)
 			{
+				for(int k = 0;k<xMaxShift;++k)
+				{
+					totalBitShift = (x*y*i + x*j +k);
+					
+					// fits
+					if(map[totalBitShift/8] & (byte>>(totalBitShift%8)) == 0)
+					{
+						bool fit = true;
+						for(int zCheck = 0;zCheck<itemToCheck.z;++zCheck)
+						{
+							for(int yCheck = 0;yCheck <itemToCheck.y;++yCheck)
+							{
+								int bitShift = totalBitShift + x*y*zCheck + x*yCheck;
+								if(map[bitShift/8] & (byte>>(bitShift%8)) ==0)
+									continue;
+								else
+								{
+									// to break both loops
+									fit = false;
+									zCheck = itemToCheck.z;
+									break;
+								}
+							}
+						}
+
+						if(fit)
+						{
+							// put item into map at this location
+							return true;
+						}
+					}
+				}
 			}
 		}
 	}
+	else if(itemToCheck.x >8)
+	{
+		totalBitShift = 0;
+		unsigned char byte[2];
+		byte[0] = *itemMap;
+		byte[1] = itemMap[size-1];
 
-	delete[] itemMap;
+		unsigned char shiftedByte[2];
+
+		for(int i = 0;i<zMaxShift;++i)
+		{
+			for(int j = 0;j<yMaxShift;++j)
+			{
+				for(int k = 0;k<xMaxShift;++k)
+				{
+					totalBitShift = x*y*i + x*j + k;
+					unsigned short shiftedBytes = shiftMapByte[valueToKey[byte[0]]][valueToKey[byte[1]]][k];
+
+					shiftedByte[0] = (shiftedBytes&0xff00)>>8;
+					shiftedByte[1] = (shiftedBytes&0xff);
+
+					if(map[totalBitShift/8] & shiftedByte[0] == 0)
+					{
+					}
+				}
+			}
+		}
+
+		delete[] itemMap;
+	}
+
     return true;
 };
 

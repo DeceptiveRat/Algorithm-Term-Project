@@ -78,8 +78,8 @@ int main()
 
 	int a, b, c;
 	std::cin>>a>>b>>c;
-	//int k = shiftMap8bit[valueToKey[a]][valueToKey[b]][c];
-	int k = shiftMapByte[valueToKey[a]][valueToKey[b]][c];
+	int k = shiftMap8bit[valueToKey[a]][valueToKey[b]-7][c];
+	//int k = shiftMapByte[valueToKey[a]][valueToKey[b]-8][c];
 	std::cout<<k<<'\n';
 
 	// ===============================================================================

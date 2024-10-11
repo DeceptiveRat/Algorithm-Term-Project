@@ -1,14 +1,16 @@
 #pragma once
 
+#include <string>
+
 // shiftMap[valueToKey[x]][y]: value when byte x is shifted y+1 times to the right 
 extern unsigned char valueToKey[256];
 //extern unsigned char shiftMap[36][8];
 
 // shiftMap[valueToKey[x]][valueToKey[y]][z]: value of x shifted by z+1 as the first byte, y shifted by z+1 as second byte
 // used for 2~8 bits of input
-extern unsigned short shiftMap8bit[36][37][8];
+extern unsigned int shiftMap8bit[8][9][8];
 // used for 9+ bits of input
-extern unsigned short shiftMapByte[36][36][8];
+extern unsigned int shiftMapByte[8][8][8];
 
 extern unsigned short bitTable[8];
 
@@ -54,8 +56,8 @@ struct BAG
 	void initMap();
 
 	// saves the maps to a txt file
-	void printItemMap(ITEM itemToCheck);
-	void printBagMap();
+	void printItemMap(ITEM itemToCheck, std::string fileName);
+	void printBagMap(std::string fileName);
 
 
 	// ----------------------------------------------------------------------------------------------------

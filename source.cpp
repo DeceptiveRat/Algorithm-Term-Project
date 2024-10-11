@@ -1,11 +1,14 @@
 #include <iostream>
 
 #include "input.h"
+#include "defineTable.h"
 
 #define INPUTSIZE 4
 
 int main()
 {
+	initTables();
+
 	// ======================= 임시로 입력 고정 =====================================
 	int inputSize = INPUTSIZE;
 
@@ -73,10 +76,12 @@ int main()
 		items[i].weight=weightInputs[i];
 	}
 
-	bags[0].initMap();
-	int a, b;
-	std::cin>>a>>b;
-	std::cout<<bags[0].shiftMap[a][b];
+	int a, b, c;
+	std::cin>>a>>b>>c;
+	//int k = shiftMap8bit[valueToKey[a]][valueToKey[b]][c];
+	int k = shiftMapByte[valueToKey[a]][valueToKey[b]][c];
+	std::cout<<k<<'\n';
+
 	// ===============================================================================
 
 	// 입력받기

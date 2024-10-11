@@ -1,5 +1,17 @@
 #pragma once
 
+// shiftMap[valueToKey[x]][y]: value when byte x is shifted y+1 times to the right 
+extern unsigned char valueToKey[256];
+//extern unsigned char shiftMap[36][8];
+
+// shiftMap[valueToKey[x]][valueToKey[y]][z]: value of x shifted by z+1 as the first byte, y shifted by z+1 as second byte
+// used for 2~8 bits of input
+extern unsigned short shiftMap8bit[36][37][8];
+// used for 9+ bits of input
+extern unsigned short shiftMapByte[36][36][8];
+
+extern unsigned short bitTable[8];
+
 // 구조
 // structures
 struct ITEM
@@ -45,48 +57,6 @@ struct BAG
 	void printItemMap(ITEM itemToCheck);
 	void printBagMap();
 
-	unsigned short bitTable[8] = {0, 0x80, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc, 0xfe};
-
-	// uses too much space for each bag. See if I can move it out to a global variable. Also, see if I can do something about all the redundant values in shiftMap
-	// shiftMap[valueToKey[x]][y]: value when byte x is shifted y+1 times to the right 
-	unsigned char valueToKey[256];
-	unsigned char shiftMap[36][8] = {
-	64, 32, 16, 8, 4, 2, 1, 0,
-	32, 16, 8, 4, 2, 1, 0, 0,
-	16, 8, 4, 2, 1, 0, 0, 0,
-	8, 4, 2, 1, 0, 0, 0, 0,
-	4, 2, 1, 0, 0, 0, 0, 0,
-	2, 1, 0, 0, 0, 0, 0, 0,
-	1, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0,
-	96, 48, 24, 12, 6, 3, 1, 0,
-	48, 24, 12, 6, 3, 1, 0, 0,
-	24, 12, 6, 3, 1, 0, 0, 0,
-	12, 6, 3, 1, 0, 0, 0, 0,
-	6, 3, 1, 0, 0, 0, 0, 0,
-	3, 1, 0, 0, 0, 0, 0, 0,
-	1, 0, 0, 0, 0, 0, 0, 0,
-	112, 56, 28, 14, 7, 3, 1, 0,
-	56, 28, 14, 7, 3, 1, 0, 0,
-	28, 14, 7, 3, 1, 0, 0, 0,
-	14, 7, 3, 1, 0, 0, 0, 0,
-	7, 3, 1, 0, 0, 0, 0, 0,
-	3, 1, 0, 0, 0, 0, 0, 0,
-	120, 60, 30, 15, 7, 3, 1, 0,
-	60, 30, 15, 7, 3, 1, 0, 0,
-	30, 15, 7, 3, 1, 0, 0, 0,
-	15, 7, 3, 1, 0, 0, 0, 0,
-	7, 3, 1, 0, 0, 0, 0, 0,
-	124, 62, 31, 15, 7, 3, 1, 0,
-	62, 31, 15, 7, 3, 1, 0, 0,
-	31, 15, 7, 3, 1, 0, 0, 0,
-	15, 7, 3, 1, 0, 0, 0, 0,
-	126, 63, 31, 15, 7, 3, 1, 0,
-	63, 31, 15, 7, 3, 1, 0, 0,
-	31, 15, 7, 3, 1, 0, 0, 0,
-	127, 63, 31, 15, 7, 3, 1, 0,
-	63, 31, 15, 7, 3, 1, 0, 0,
-	127, 63, 31, 15, 7, 3, 1, 0	};
 
 	// ----------------------------------------------------------------------------------------------------
 

@@ -63,42 +63,6 @@ void BAG::initMap()
     for(int i = 0; i < size; ++i)
         map[i] = 0;
 
-	valueToKey[128] = 0;
-	valueToKey[64] = 1;
-	valueToKey[32] = 2;
-	valueToKey[16] = 3;
-	valueToKey[8] = 4;
-	valueToKey[4] = 5;
-	valueToKey[2] = 6;
-	valueToKey[1] = 7;
-	valueToKey[192] = 8;
-	valueToKey[96] = 9;
-	valueToKey[48] = 10;
-	valueToKey[24] = 11;
-	valueToKey[12] = 12;
-	valueToKey[6] = 13;
-	valueToKey[3] = 14;
-	valueToKey[224] = 15;
-	valueToKey[112] = 16;
-	valueToKey[56] = 17;
-	valueToKey[28] = 18;
-	valueToKey[14] = 19;
-	valueToKey[7] = 20;
-	valueToKey[240] = 21;
-	valueToKey[120] = 22;
-	valueToKey[60] = 23;
-	valueToKey[30] = 24;
-	valueToKey[15] = 25;
-	valueToKey[248] = 26;
-	valueToKey[124] = 27;
-	valueToKey[62] = 28;
-	valueToKey[31] = 29;
-	valueToKey[252] = 30;
-	valueToKey[126] = 31;
-	valueToKey[63] = 32;
-	valueToKey[254] = 33;
-	valueToKey[127] = 34;
-	valueToKey[255] = 35;
 }
 
 void BAG::printItemMap(ITEM itemToCheck)
@@ -231,17 +195,14 @@ bool BAG::putIn(ITEM itemToCheck)
 
 		totalBitShift += 8;
 	}
-
 	ptr = (unsigned short*)&itemMap[totalBitShift / 8];
 	*ptr |= ntohs(itemxBits << (8 - totalBitShift % 8));
 
-	unsigned int *bagMapPtr = (unsigned int*)map;
-	unsigned int *itemMapPtr = (unsigned int*)itemMap;
-
+	unsigned char *bagMapPtr = (unsigned char*)map;
+	unsigned char *itemMapPtr = (unsigned char*)itemMap;
     int xMaxShift = x - itemToCheck.x;
     int yMaxShift = y - itemToCheck.y;
     int zMaxShift = z - itemToCheck.z;
-	int mapPtrMaxIndex = size/4;
 
 	for(int i = 0;i<zMaxShift;++i)
 	{

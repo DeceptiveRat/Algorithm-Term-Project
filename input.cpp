@@ -252,7 +252,7 @@ bool BAG::putIn(ITEM itemToCheck)
 		byte[0] = *itemMap;
 		byte[1] = itemMap[size-1];
 
-		unsigned char shiftedByte[2];
+		unsigned short shiftedWord[2];
 
 		for(int i = 0;i<zMaxShift;++i)
 		{
@@ -261,22 +261,141 @@ bool BAG::putIn(ITEM itemToCheck)
 				for(int k = 0;k<xMaxShift;++k)
 				{
 					totalBitShift = x*y*i + x*j + k;
-					unsigned short shiftedBytes = shiftMapByte[valueToKey[byte[0]]][valueToKey[byte[1]]][k];
+					unsigned short *mapPtr = (unsigned short*)(map+(totalBitShift/8));
+					unsigned int shiftedBytes = shiftMapByte[valueToKey[byte[0]]][valueToKey[byte[1]]-8][totalBitShift%8];
 
-					shiftedByte[0] = (shiftedBytes&0xff00)>>8;
-					shiftedByte[1] = (shiftedBytes&0xff);
+					shiftedWord[0] = (shiftedBytes&0xffff0000)>>16;
+					shiftedWord[1] = shiftedBytes&0xffff;
 
-					if(map[totalBitShift/8] & shiftedByte[0] == 0)
+					bool fit = true;
+					for(int height=0;height<itemToCheck.z;++height)
 					{
+						totalBitShift+=x*y;
+
+						for(int width=0;width<itemToCheck.y;++width)
+						{
+							totalBitShift+=x;
+							mapPtr = (unsigned short*)(map+(totalBitShift/8));
+
+							// check first 2 bytes ----------------
+							// if it doesn't fit, go to shift
+							if((*mapPtr & shiftedWord[0]) != 0)
+							{
+								fit = false;
+								height=itemToCheck.z;
+								break;
+							}
+
+							// check bytes in the middle ---------
+							for(int l =2;l<size-1;++l)
+							{
+								if(map[totalBitShift/8+l] == 0)
+									continue;
+								else
+								{
+									// if it doesn't fit in even one place, go to shift
+									fit = false;
+									height=itemToCheck.z;
+									width=itemToCheck.y;
+									break;
+								}
+							}
+
+							// check final 2 bytes -------------
+							// exception
+							if(size == 2 && (shiftedBytes && 0xff)==0)
+							{
+								mapPtr = (unsigned short*)(map+(totalBitShift/8 + size));
+								if(*mapPtr & shiftedWord[1] == 0)
+									continue;
+								else
+								{
+									fit = false;
+									height=itemToCheck.z;
+									break;
+								}
+							}
+
+							// other cases
+							else
+							{
+								mapPtr = (unsigned short*)(map+(totalBitShift/8 + size-1));
+								if(*mapPtr & shiftedWord[1] == 0)
+									continue;
+								else
+								{
+									fit = false;
+									height=itemToCheck.z;
+									break;
+								}
+							}
+						}
 					}
+						
+					if(fit)
+					{
+						// put item in this location
+						return true;
+					}
+					else
+						continue;
 				}
 			}
 		}
-
-		delete[] itemMap;
 	}
 
-    return true;
+	else
+	{
+		totalBitShift = 0;
+		unsigned char byte[2];
+		byte[0] = *itemMap;
+		byte[1] = itemMap[size-1];
+
+		for(int i = 0;i<zMaxShift;++i)
+		{
+			for(int j = 0;j<yMaxShift;++j)
+			{
+				for(int k = 0;k<xMaxShift;++k)
+				{
+					totalBitShift = x*y*i + x*j + k;
+					unsigned int *mapPtr = (unsigned int*)(map+(totalBitShift/8));
+					unsigned int shiftedBytes = shiftMap8bit[valueToKey[byte[0]]][valueToKey[byte[1]]-7][totalBitShift%8];
+
+					bool fit = true;
+					for(int height=0;height<itemToCheck.z;++height)
+					{
+						totalBitShift+=x*y;
+
+						for(int width=0;width<itemToCheck.y;++width)
+						{
+							totalBitShift+=x;
+							mapPtr = (unsigned int*)(map+(totalBitShift/8));
+
+							// check 4 bytes, which is all the bytes for this y and z
+							// if it doesn't fit, go to shift
+							if((*mapPtr & shiftedBytes) != 0)
+							{
+								fit = false;
+								height=itemToCheck.z;
+								break;
+							}
+						}
+					}
+						
+					if(fit)
+					{
+						// put item in this location
+						return true;
+					}
+					else
+						continue;
+				}
+			}
+		}
+	}
+
+	delete[] itemMap;
+    return false;
 };
 
 int BAG::firstAvailableLocation(int axis, int length)

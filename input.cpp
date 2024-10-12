@@ -67,10 +67,10 @@ void BAG::initMap()
 
 }
 
-void BAG::printItemMap(ITEM itemToCheck, std::string fileName)
+void BAG::printItemMap(ITEM itemToPrint, std::string fileName)
 {
-    int itemxBytes = itemToCheck.x / 8;
-    unsigned short itemxBits = bitTable[itemToCheck.x % 8];
+    int itemxBytes = itemToPrint.x / 8;
+    unsigned short itemxBits = bitTable[itemToPrint.x % 8];
 
     std::ofstream output;
 	// closed in printItemMap
@@ -87,9 +87,9 @@ void BAG::printItemMap(ITEM itemToCheck, std::string fileName)
     // used to treat the char array as a short so that we can bitwise or past 1 byte
     unsigned short *ptr;
 
-    for(int i = 0; i < itemToCheck.z; ++i)
+    for(int i = 0; i < itemToPrint.z; ++i)
     {
-        for(int j = 0; j < itemToCheck.y; ++j)
+        for(int j = 0; j < itemToPrint.y; ++j)
         {
             totalBitShift = x * j + x * y * i;
 
@@ -162,20 +162,9 @@ void BAG::printBagMap(std::string fileName)
 	output.close();
 }
 
-bool BAG::putIn(ITEM itemToCheck)
+bool BAG::tryItem(ITEM itemToCheck)
 {
-    /*
-    	ITEMLIST* currentPtr;
-    	currentPtr = itemsInside;
-
-    	//check all items in the list to see if there is room
-    	for(int i=0;i<itemCount;++i)
-    	{
-    		if(itemToCheck.x
-    	}
-    */
-
-    // experimenting -------------------------------------------------------------------------------------
+	// check weight limit and return false if it is exceeded
 
 	int totalBitShift = 0;
 	int size = (x-1)/8 +1;
@@ -398,23 +387,8 @@ bool BAG::putIn(ITEM itemToCheck)
     return false;
 };
 
-int BAG::firstAvailableLocation(int axis, int length)
+void BAG::putIn(ITEM itemToInclude)
 {
-    /*
-    	if(axis==0)
-    	{
-
-    	}
-    	else if(axis==1)
-    	else if(axis==2)
-    	else
-    	{
-    		return -1;
-    	}
-    */
-
-    // experimenting -------------------------------------------------------------------------------------
-    return 0;
 }
 
 void getInput()

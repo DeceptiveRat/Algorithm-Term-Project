@@ -59,7 +59,7 @@ BAG::~BAG()
 void BAG::initMap()
 {
     int size = (x * y * z - 1) / 8 + 1;
-	// deleted in ~BAG()
+    // deleted in ~BAG()
     map = new unsigned char[size];
 
     for(int i = 0; i < size; ++i)
@@ -73,12 +73,13 @@ void BAG::printItemMap(ITEM itemToPrint, std::string fileName)
     unsigned short itemxBits = bitTable[itemToPrint.x % 8];
 
     std::ofstream output;
-	// closed in printItemMap
+    // closed in printItemMap
     output.open(fileName);
 
     int size = (x * y * z - 1) / 8 + 1;
-	// deleted in printItemMap()
+    // deleted in printItemMap()
     itemMap = new unsigned char[size];
+
     for(int i = 0; i < size; ++i)
         itemMap[i] = 0;
 
@@ -109,26 +110,27 @@ void BAG::printItemMap(ITEM itemToPrint, std::string fileName)
         }
     }
 
-	totalBitShift = 0;
-	char bitmask = 1<<7;
+    totalBitShift = 0;
+    char bitmask = 1 << 7;
 
-	// print map
-	for(int i =0;i<z;++i)
-	{
-		output<<"Level: "<<i<<'\n';
-		for(int j=0;j<y;++j)
-		{
-			for(int k=0;k<x;++k)
-			{
-				output<<((itemMap[totalBitShift/8]>>(7-(totalBitShift%8))) & 1)<<" ";
-				++totalBitShift;
-			}
+    // print map
+    for(int i = 0; i < z; ++i)
+    {
+        output << "Level: " << i << '\n';
 
-			output<<"\n";
-		}
+        for(int j = 0; j < y; ++j)
+        {
+            for(int k = 0; k < x; ++k)
+            {
+                output << ((itemMap[totalBitShift / 8] >> (7 - (totalBitShift % 8))) & 1) << " ";
+                ++totalBitShift;
+            }
 
-		output<<"\n";
-	}
+            output << "\n";
+        }
+
+        output << "\n";
+    }
 
     delete[] itemMap;
     output.close();
@@ -137,258 +139,327 @@ void BAG::printItemMap(ITEM itemToPrint, std::string fileName)
 void BAG::printBagMap(std::string fileName)
 {
     std::ofstream output;
-	// closed in printBagMap
+    // closed in printBagMap
     output.open(fileName);
 
-	int totalBitShift = 0;
+    int totalBitShift = 0;
 
-	for(int i =0;i<z;++i)
-	{
-		output<<"Level: "<<i<<'\n';
-		for(int j=0;j<y;++j)
-		{
-			for(int k=0;k<x;++k)
-			{
-				output<<((map[totalBitShift/8]>>(7-(totalBitShift%8))) & 1)<<" ";
-				++totalBitShift;
-			}
+    for(int i = 0; i < z; ++i)
+    {
+        output << "Level: " << i << '\n';
 
-			output<<"\n";
-		}
+        for(int j = 0; j < y; ++j)
+        {
+            for(int k = 0; k < x; ++k)
+            {
+                output << ((map[totalBitShift / 8] >> (7 - (totalBitShift % 8))) & 1) << " ";
+                ++totalBitShift;
+            }
 
-		output<<"\n";
-	}
+            output << "\n";
+        }
 
-	output.close();
+        output << "\n";
+    }
+
+    output.close();
 }
 
 bool BAG::tryItem(ITEM itemToCheck)
 {
-	// check weight limit and return false if it is exceeded
+    // check weight limit and return false if it is exceeded
 
-	int totalBitShift = 0;
-	int size = (x-1)/8 +1;
+    int totalBitShift = 0;
+    int itemSize = (itemToCheck.x - 1) / 8 + 1;
 
-	// deleted in putIn()
-	itemMap = new unsigned char[size];
+    // deleted in putIn()
+    itemMap = new unsigned char[itemSize];
 
-	int itemxBytes = itemToCheck.x / 8;
-	unsigned short itemxBits = bitTable[itemToCheck.x % 8];
-	unsigned short* ptr;
-	for(int k = 0; k < itemxBytes; ++k)
-	{
-		int bitShiftK = totalBitShift % 8;
-		ptr = (unsigned short*)&itemMap[totalBitShift / 8];
+    int itemxBytes = itemToCheck.x / 8;
+    unsigned short itemxBits = bitTable[itemToCheck.x % 8];
+    unsigned short* ptr;
 
-		*ptr |= ntohs(0x00ff << (8 - bitShiftK));
+    for(int k = 0; k < itemxBytes; ++k)
+    {
+        int bitShiftK = totalBitShift % 8;
+        ptr = (unsigned short*)&itemMap[totalBitShift / 8];
 
-		totalBitShift += 8;
-	}
-	ptr = (unsigned short*)&itemMap[totalBitShift / 8];
-	*ptr |= ntohs(itemxBits << (8 - totalBitShift % 8));
+        *ptr = ntohs(0x00ff << (8 - bitShiftK));
+
+        totalBitShift += 8;
+    }
+
+    ptr = (unsigned short*)&itemMap[totalBitShift / 8];
+    *ptr = ntohs(itemxBits << (8 - totalBitShift % 8));
 
     int xMaxShift = x - itemToCheck.x;
     int yMaxShift = y - itemToCheck.y;
     int zMaxShift = z - itemToCheck.z;
 
-	if(itemToCheck.x == 1)
-	{
-		unsigned char byte = 128;
+    if(itemToCheck.x == 1)
+    {
+        unsigned char byte = 128;
 
-		for(int i = 0;i<zMaxShift;++i)
-		{
-			for(int j = 0;j<yMaxShift;++j)
-			{
-				for(int k = 0;k<xMaxShift;++k)
-				{
-					totalBitShift = (x*y*i + x*j +k);
-					
-					// fits
-					if(map[totalBitShift/8] & (byte>>(totalBitShift%8)) == 0)
-					{
-						bool fit = true;
-						for(int zCheck = 0;zCheck<itemToCheck.z;++zCheck)
-						{
-							for(int yCheck = 0;yCheck <itemToCheck.y;++yCheck)
-							{
-								int bitShift = totalBitShift + x*y*zCheck + x*yCheck;
-								if(map[bitShift/8] & (byte>>(bitShift%8)) ==0)
-									continue;
-								else
-								{
-									// to break both loops
-									fit = false;
-									zCheck = itemToCheck.z;
-									break;
-								}
-							}
-						}
+        for(int i = 0; i <= zMaxShift; ++i)
+        {
+            for(int j = 0; j <= yMaxShift; ++j)
+            {
+                for(int k = 0; k <= xMaxShift; ++k)
+                {
+                    totalBitShift = (x * y * i + x * j + k);
 
-						if(fit)
-						{
-							// put item into map at this location
-							return true;
-						}
-					}
-				}
-			}
-		}
-	}
-	else if(itemToCheck.x >8)
-	{
-		totalBitShift = 0;
-		unsigned char byte[2];
-		byte[0] = *itemMap;
-		byte[1] = itemMap[size-1];
+                    // fits
+                    if(map[totalBitShift / 8] & (byte >> (totalBitShift % 8)) == 0)
+                    {
+                        bool fit = true;
 
-		unsigned short shiftedWord[2];
+                        for(int height = 0; height < itemToCheck.z; ++height)
+                        {
+                            for(int width = 0; width < itemToCheck.y; ++width)
+                            {
+                                int bitShift = totalBitShift + x * y * height + x * width;
 
-		for(int i = 0;i<zMaxShift;++i)
-		{
-			for(int j = 0;j<yMaxShift;++j)
-			{
-				for(int k = 0;k<xMaxShift;++k)
-				{
-					totalBitShift = x*y*i + x*j + k;
-					unsigned short *mapPtr = (unsigned short*)(map+(totalBitShift/8));
-					unsigned int shiftedBytes = shiftMapByte[valueToKey[byte[0]]][valueToKey[byte[1]]-8][totalBitShift%8];
+                                if(map[bitShift / 8] & (byte >> (bitShift % 8)) == 0)
+                                    continue;
 
-					shiftedWord[0] = (shiftedBytes&0xffff0000)>>16;
-					shiftedWord[1] = shiftedBytes&0xffff;
+                                else
+                                {
+                                    // to break both loops
+                                    fit = false;
+                                    height = itemToCheck.z;
+                                    break;
+                                }
+                            }
+                        }
 
-					bool fit = true;
-					for(int height=0;height<itemToCheck.z;++height)
-					{
-						totalBitShift+=x*y;
+                        if(fit)
+                        {
+                            putIn(itemToCheck, totalBitShift);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-						for(int width=0;width<itemToCheck.y;++width)
-						{
-							totalBitShift+=x;
-							mapPtr = (unsigned short*)(map+(totalBitShift/8));
+    else if(itemToCheck.x > 8)
+    {
+        totalBitShift = 0;
+        unsigned char byte;
+        byte = itemMap[itemSize - 1];
 
-							// check first 2 bytes ----------------
-							// if it doesn't fit, go to shift
-							if((*mapPtr & shiftedWord[0]) != 0)
-							{
-								fit = false;
-								height=itemToCheck.z;
-								break;
-							}
+        unsigned short shiftedWord[2];
 
-							// check bytes in the middle ---------
-							for(int l =2;l<size-1;++l)
-							{
-								if(map[totalBitShift/8+l] == 0)
-									continue;
-								else
-								{
-									// if it doesn't fit in even one place, go to shift
-									fit = false;
-									height=itemToCheck.z;
-									width=itemToCheck.y;
-									break;
-								}
-							}
+        for(int i = 0; i <= zMaxShift; ++i)
+        {
+            for(int j = 0; j <= yMaxShift; ++j)
+            {
+                for(int k = 0; k <= xMaxShift; ++k)
+                {
+                    totalBitShift = x * y * i + x * j + k;
+                    unsigned short *mapPtr;
+                    unsigned int shiftedBytes;
+                    bool fit = true;
 
-							// check final 2 bytes -------------
-							// exception
-							if(size == 2 && (shiftedBytes && 0xff)==0)
-							{
-								mapPtr = (unsigned short*)(map+(totalBitShift/8 + size));
-								if(*mapPtr & shiftedWord[1] == 0)
-									continue;
-								else
-								{
-									fit = false;
-									height=itemToCheck.z;
-									break;
-								}
-							}
+                    for(int height = 0; height < itemToCheck.z; ++height)
+                    {
+                        for(int width = 0; width < itemToCheck.y; ++width)
+                        {
+                            int checkWord = totalBitShift + height * x * y + width * x;
+                            mapPtr = (unsigned short*)(map + (checkWord / 8));
 
-							// other cases
-							else
-							{
-								mapPtr = (unsigned short*)(map+(totalBitShift/8 + size-1));
-								if(*mapPtr & shiftedWord[1] == 0)
-									continue;
-								else
-								{
-									fit = false;
-									height=itemToCheck.z;
-									break;
-								}
-							}
-						}
-					}
-						
-					if(fit)
-					{
-						// put item in this location
-						return true;
-					}
-					else
-						continue;
-				}
-			}
-		}
-	}
+                            shiftedBytes = shiftMapByte[valueToKey[byte]][checkWord % 8];
+                            shiftedWord[0] = (shiftedBytes & 0xff000000) >> 16;
+                            shiftedWord[1] = shiftedBytes & 0xffff;
 
-	else
-	{
-		totalBitShift = 0;
-		unsigned char byte[2];
-		byte[0] = *itemMap;
-		byte[1] = itemMap[size-1];
+                            // check first 2 bytes ----------------
+                            // if it doesn't fit, go to shift
+                            if((*mapPtr & ntohs(shiftedWord[0])) != 0)
+                            {
+                                fit = false;
+                                height = itemToCheck.z;
+                                break;
+                            }
 
-		for(int i = 0;i<zMaxShift;++i)
-		{
-			for(int j = 0;j<yMaxShift;++j)
-			{
-				for(int k = 0;k<xMaxShift;++k)
-				{
-					totalBitShift = x*y*i + x*j + k;
-					unsigned int *mapPtr = (unsigned int*)(map+(totalBitShift/8));
-					unsigned int shiftedBytes = shiftMap8bit[valueToKey[byte[0]]][valueToKey[byte[1]]-7][totalBitShift%8];
+                            // check bytes in the middle ---------
+                            for(int l = 1; l < itemSize - 1; ++l)
+                            {
+                                if(map[checkWord / 8 + l] == 0)
+                                    continue;
 
-					bool fit = true;
-					for(int height=0;height<itemToCheck.z;++height)
-					{
-						totalBitShift+=x*y;
+                                else
+                                {
+                                    // if it doesn't fit in even one place, go to shift
+                                    fit = false;
+                                    height = itemToCheck.z;
+                                    width = itemToCheck.y;
+                                    break;
+                                }
+                            }
 
-						for(int width=0;width<itemToCheck.y;++width)
-						{
-							totalBitShift+=x;
-							mapPtr = (unsigned int*)(map+(totalBitShift/8));
+                            // check final 2 bytes -------------
+                            // exception
+                            mapPtr = (unsigned short*)(map + (checkWord / 8 + itemSize - 1));
 
-							// check 4 bytes, which is all the bytes for this y and z
-							// if it doesn't fit, go to shift
-							if((*mapPtr & shiftedBytes) != 0)
-							{
-								fit = false;
-								height=itemToCheck.z;
-								break;
-							}
-						}
-					}
-						
-					if(fit)
-					{
-						// put item in this location
-						return true;
-					}
-					else
-						continue;
-				}
-			}
-		}
-	}
+                            if((*mapPtr & ntohs(shiftedWord[1])) == 0)
+                                continue;
 
-	delete[] itemMap;
+                            else
+                            {
+                                fit = false;
+                                height = itemToCheck.z;
+                                break;
+                            }
+                        }
+                    }
+
+                    if(fit)
+                    {
+                        putIn(itemToCheck, totalBitShift);
+                        return true;
+                    }
+
+                    else
+                        continue;
+                }
+            }
+        }
+    }
+
+    else
+    {
+        totalBitShift = 0;
+        unsigned char byte;
+        byte = *itemMap;
+
+        for(int i = 0; i <= zMaxShift; ++i)
+        {
+            for(int j = 0; j <= yMaxShift; ++j)
+            {
+                for(int k = 0; k <= xMaxShift; ++k)
+                {
+                    totalBitShift = x * y * i + x * j + k;
+                    unsigned int *mapPtr;
+                    unsigned int shiftedBytes;
+
+                    bool fit = true;
+
+                    for(int height = 0; height < itemToCheck.z; ++height)
+                    {
+                        for(int width = 0; width < itemToCheck.y; ++width)
+                        {
+                            int checkBit = totalBitShift + height * x * y + width * x;
+                            mapPtr = (unsigned int*)(map + (checkBit / 8));
+                            shiftedBytes = shiftMap8bit[valueToKey[byte]][checkBit % 8];
+
+                            // check 4 bytes, which is all the bytes for this y and z
+                            // if it doesn't fit, go to shift
+                            if((*mapPtr & ntohl(shiftedBytes)) != 0)
+                            {
+                                fit = false;
+                                height = itemToCheck.z;
+                                break;
+                            }
+                        }
+                    }
+
+                    if(fit)
+                    {
+                        putIn(itemToCheck, totalBitShift);
+                        return true;
+                    }
+
+                    else
+                        continue;
+                }
+            }
+        }
+    }
+
+    delete[] itemMap;
     return false;
-};
+}
 
-void BAG::putIn(ITEM itemToInclude)
+void BAG::putIn(const ITEM itemToInclude, const int bitShifts)
 {
+    int totalBitShift = 0;
+    int xMaxShift = x - itemToInclude.x;
+    int yMaxShift = y - itemToInclude.y;
+    int zMaxShift = z - itemToInclude.z;
+    int itemSize = (itemToInclude.x - 1) / 8 + 1;
+
+    if(itemToInclude.x == 1)
+        for(int zInclude = 0; zInclude < itemToInclude.z; ++zInclude)
+        {
+            for(int yInclude = 0; yInclude < itemToInclude.y; ++yInclude)
+            {
+                totalBitShift = bitShifts + x * y * zInclude + x * yInclude;
+
+                // fit the one bit
+                map[totalBitShift / 8] |= 128 >> (totalBitShift % 8);
+            }
+        }
+
+    else if(itemToInclude.x > 8)
+    {
+        unsigned char byte;
+        byte = itemMap[itemSize - 1];
+
+        unsigned short shiftedWord[2];
+
+        totalBitShift = bitShifts;
+        unsigned short *mapPtr;
+        unsigned int shiftedBytes;
+
+        for(int height = 0; height < itemToInclude.z; ++height)
+        {
+            for(int width = 0; width < itemToInclude.y; ++width)
+            {
+                int insertWord = totalBitShift + height * x * y + width * x;
+                mapPtr = (unsigned short*)(map + (insertWord / 8));
+                shiftedBytes = shiftMapByte[valueToKey[byte]][insertWord % 8];
+                shiftedWord[0] = (shiftedBytes & 0xff000000) >> 16;
+                shiftedWord[1] = shiftedBytes & 0xffff;
+
+                // insert first word
+                *mapPtr |= ntohs(shiftedWord[0]);
+
+                // insert middle bytes
+                for(int l = 1; l < itemSize - 1; ++l)
+                    map[insertWord / 8 + l] |= 0xff;
+
+                // insert last word
+                // exception
+                mapPtr = (unsigned short*)(map + (insertWord / 8 + itemSize - 1));
+
+                *mapPtr |= ntohs(shiftedWord[1]);
+            }
+        }
+    }
+
+    else
+    {
+        totalBitShift = bitShifts;
+        unsigned char byte;
+        byte = *itemMap;
+
+        unsigned int *mapPtr;
+        unsigned int shiftedBytes;
+
+        for(int height = 0; height < itemToInclude.z; ++height)
+        {
+            for(int width = 0; width < itemToInclude.y; ++width)
+            {
+                int insertDword = totalBitShift + height * x * y + width * x;
+                mapPtr = (unsigned int*)(map + (insertDword / 8));
+                shiftedBytes = shiftMap8bit[valueToKey[byte]][insertDword % 8];
+
+                // insert 4 bytes, which is all the bytes for this y and z
+                *mapPtr |= ntohl(shiftedBytes);
+            }
+        }
+    }
 }
 
 void getInput()

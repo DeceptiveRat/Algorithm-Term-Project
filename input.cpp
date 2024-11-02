@@ -9,7 +9,6 @@
 
 #include "input.h"
 
-// 생성자와 파괴자
 // constructors and destructors
 ITEM::ITEM()
 {
@@ -30,12 +29,9 @@ ITEM::~ITEM()
     zLocation = 0;
 };
 
-ITEMLIST::ITEMLIST(ITEM itemToInclude)
+ITEMLIST::ITEMLIST()
 {
-    ITEM *item = new ITEM;
-    *item = itemToInclude;
-
-    nextItem = nullptr;
+	item = nullptr;
 }
 
 ITEMLIST::~ITEMLIST()
@@ -43,8 +39,92 @@ ITEMLIST::~ITEMLIST()
     delete item;
 }
 
+ITEMLIST::ITEMLIST(const ITEMLIST& other)
+{
+	ITEMLIST* otherListPtr = nullptr;
+	ITEMLIST* thisListPtr = this;
+
+	addItem(*other.item);
+	otherListPtr = other.nextItemOnList;
+
+	while(otherListPtr != nullptr)
+	{
+		thisListPtr->nextItemOnList = new ITEMLIST;
+		thisListPtr = thisListPtr->nextItemOnList;
+
+		thisListPtr->addItem(*otherListPtr->item);
+		otherListPtr = otherListPtr->nextItemOnList;
+	}
+}
+
+ITEMLIST& ITEMLIST::operator=(const ITEMLIST& other)
+{
+	if(this == &other)
+		return *this;
+	
+	// delete the previous list
+	deleteList();
+
+	// copy list
+	ITEMLIST* otherListPtr = nullptr;
+	ITEMLIST* thisListPtr = this;
+
+	addItem(*other.item);
+	otherListPtr = other.nextItemOnList;
+
+	while(otherListPtr != nullptr)
+	{
+		thisListPtr->nextItemOnList = new ITEMLIST;
+		thisListPtr = thisListPtr->nextItemOnList;
+
+		thisListPtr->addItem(*otherListPtr->item);
+		otherListPtr = otherListPtr->nextItemOnList;
+	}
+
+	return *this;
+}
+
+void ITEMLIST::addItem(const ITEM itemToInclude)
+{
+	// if there is already a value, delete after alerting user
+	if(item != nullptr)
+	{
+		printf("deleted item before adding new item!\n");
+		printf("This is not supposed to happen!\n");
+		delete item;
+	}
+
+    ITEM *item = new ITEM;
+    *item = itemToInclude;
+
+    nextItemOnList = nullptr;
+}
+
+void ITEMLIST::deleteList()
+{
+	delete item;
+
+	ITEMLIST* currentItemOnListPtr = nullptr;
+	ITEMLIST* previousItemOnListPtr = nullptr;
+	previousItemOnListPtr = nextItemOnList;
+	currentItemOnListPtr = previousItemOnListPtr->nextItemOnList;
+
+	while(currentItemOnListPtr != nullptr)
+	{
+		delete previousItemOnListPtr;
+		previousItemOnListPtr = currentItemOnListPtr;
+		currentItemOnListPtr = currentItemOnListPtr->nextItemOnList;
+	}
+
+	delete previousItemOnListPtr;
+	
+	nextItemOnList = nullptr;
+}
+
 BAG::BAG()
 {
+	itemsInside = nullptr;
+	map = nullptr;
 };
 
 BAG::~BAG()
@@ -53,13 +133,64 @@ BAG::~BAG()
     y = 0;
     z = 0;
     maxCapacity = 0;
+	if(itemsInside != nullptr)
+	{
+		itemsInside->deleteList();
+		delete itemsInside;
+	}
     delete[] map;
 };
 
+BAG::BAG(const BAG& other)
+{
+	x = other.x;
+	y = other.y;
+	z = other.z;
+	maxCapacity = other.maxCapacity;
+	itemCount = other.itemCount;
+	itemWeightSum = other.itemWeightSum;
+	itemsInside = other.itemsInside;
+	initMap();
+}
+
+BAG& BAG::operator=(const BAG& other)
+{
+	if(this == &other)
+		return *this;
+	
+	// delete resources
+	if(itemsInside != nullptr)
+	{
+		itemsInside->deleteList();
+		delete itemsInside;
+	}
+	delete[] map;
+
+	// copy
+	x = other.x;
+	y = other.y;
+	z = other.z;
+	maxCapacity = other.maxCapacity;
+	itemCount = other.itemCount;
+	itemWeightSum = other.itemWeightSum;
+	itemsInside = other.itemsInside;
+	initMap();
+
+	return *this;
+}
+
+// do only once
 void BAG::initMap()
 {
+	// if there is already a value, delete after alerting user
+	if(map != nullptr)
+	{
+		printf("deleted map before adding new map!\n");
+		printf("This is not supposed to happen!\n");
+		delete[] map;
+	}
+
     int size = (x * y * z - 1) / 8 + 1;
-    // deleted in ~BAG()
     map = new unsigned char[size];
 
     for(int i = 0; i < size; ++i)
@@ -73,11 +204,11 @@ void BAG::printItemMap(ITEM itemToPrint, std::string fileName)
     unsigned short itemxBits = bitTable[itemToPrint.x % 8];
 
     std::ofstream output;
-    // closed in printItemMap
     output.open(fileName);
 
+	// map of the item to print
+	unsigned char* itemMap;
     int size = (x * y * z - 1) / 8 + 1;
-    // deleted in printItemMap()
     itemMap = new unsigned char[size];
 
     for(int i = 0; i < size; ++i)
@@ -111,7 +242,6 @@ void BAG::printItemMap(ITEM itemToPrint, std::string fileName)
     }
 
     totalBitShift = 0;
-    char bitmask = 1 << 7;
 
     // print map
     for(int i = 0; i < z; ++i)
@@ -139,7 +269,6 @@ void BAG::printItemMap(ITEM itemToPrint, std::string fileName)
 void BAG::printBagMap(std::string fileName)
 {
     std::ofstream output;
-    // closed in printBagMap
     output.open(fileName);
 
     int totalBitShift = 0;
@@ -168,11 +297,13 @@ void BAG::printBagMap(std::string fileName)
 bool BAG::tryItem(ITEM itemToCheck)
 {
     // check weight limit and return false if it is exceeded
+	if(itemWeightSum+itemToCheck.weight>maxCapacity)
+		return false;
 
     int totalBitShift = 0;
     int itemSize = (itemToCheck.x - 1) / 8 + 1;
 
-    // deleted in putIn()
+	unsigned char *itemMap;
     itemMap = new unsigned char[itemSize];
 
     int itemxBytes = itemToCheck.x / 8;
@@ -209,7 +340,7 @@ bool BAG::tryItem(ITEM itemToCheck)
                     totalBitShift = (x * y * i + x * j + k);
 
                     // fits
-                    if(map[totalBitShift / 8] & (byte >> (totalBitShift % 8)) == 0)
+                    if(map[totalBitShift / 8] & ((byte >> (totalBitShift % 8)) == 0))
                     {
                         bool fit = true;
 
@@ -219,7 +350,7 @@ bool BAG::tryItem(ITEM itemToCheck)
                             {
                                 int bitShift = totalBitShift + x * y * height + x * width;
 
-                                if(map[bitShift / 8] & (byte >> (bitShift % 8)) == 0)
+                                if(map[bitShift / 8] & ((byte >> (bitShift % 8)) == 0))
                                     continue;
 
                                 else
@@ -234,7 +365,9 @@ bool BAG::tryItem(ITEM itemToCheck)
 
                         if(fit)
                         {
-                            putIn(itemToCheck, totalBitShift);
+                            putIn(itemToCheck, totalBitShift, itemMap);
+							itemCount++;
+							itemWeightSum+=itemToCheck.weight;
                             return true;
                         }
                     }
@@ -316,7 +449,9 @@ bool BAG::tryItem(ITEM itemToCheck)
 
                     if(fit)
                     {
-                        putIn(itemToCheck, totalBitShift);
+                        putIn(itemToCheck, totalBitShift, itemMap);
+						itemCount++;
+						itemWeightSum+=itemToCheck.weight;
                         return true;
                     }
 
@@ -366,7 +501,9 @@ bool BAG::tryItem(ITEM itemToCheck)
 
                     if(fit)
                     {
-                        putIn(itemToCheck, totalBitShift);
+                        putIn(itemToCheck, totalBitShift, itemMap);
+						itemCount++;
+						itemWeightSum+=itemToCheck.weight;
                         return true;
                     }
 
@@ -381,12 +518,9 @@ bool BAG::tryItem(ITEM itemToCheck)
     return false;
 }
 
-void BAG::putIn(const ITEM itemToInclude, const int bitShifts)
+void BAG::putIn(const ITEM itemToInclude, const int bitShifts, const unsigned char *itemMap)
 {
     int totalBitShift = 0;
-    int xMaxShift = x - itemToInclude.x;
-    int yMaxShift = y - itemToInclude.y;
-    int zMaxShift = z - itemToInclude.z;
     int itemSize = (itemToInclude.x - 1) / 8 + 1;
 
     if(itemToInclude.x == 1)
@@ -465,4 +599,33 @@ void BAG::putIn(const ITEM itemToInclude, const int bitShifts)
 void getInput()
 {
     //
+}
+
+void sort(BAG* bags, const int bagCount)
+{
+	BAG* tempPtr;
+	int maxIndex;
+
+	for(int i = 0;i<bagCount;i++)
+	{
+		maxIndex = i;
+
+		for(int j = i+1;j<bagCount;j++)
+		{
+			if(compare(bags[j], bags[maxIndex]) == 0)
+				maxIndex = j;
+		}
+
+		tempPtr = &bags[i];
+		bags[i] = bags[maxIndex];
+		bags[maxIndex] = *tempPtr;
+	}
+}
+
+int compare(const BAG& bag1, const BAG& bag2)
+{
+	if(bag1.x*bag1.y*bag1.z>bag2.x*bag2.y*bag2.z)
+		return 0;
+	else
+		return 1;
 }

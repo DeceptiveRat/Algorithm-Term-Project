@@ -26,11 +26,20 @@ struct ITEM
 
 struct ITEMLIST
 {
-    ITEMLIST(ITEM itemToInclude);
-    ~ITEMLIST();
+	ITEMLIST();
+	~ITEMLIST();
 
-    ITEM* item;
-    ITEMLIST* nextItem;
+	// copy operators
+	ITEMLIST(const ITEMLIST& other);
+	ITEMLIST& operator=(const ITEMLIST& other);
+
+	void addItem(const ITEM itemToInclude);
+	// deletes item and all the items after this in the list
+	// **warning** doesn't delete itself so it must be manually deleted
+	void deleteList();
+
+	ITEM* item;
+	ITEMLIST* nextItemOnList;
 };
 
 struct BAG
@@ -38,13 +47,19 @@ struct BAG
     BAG();
     ~BAG();
 
+	// copy constructors
+	BAG(const BAG& other);
+
+	// copy assignment
+	BAG& operator=(const BAG& other);
+
     int x, y, z, maxCapacity;
 
     ITEMLIST* itemsInside;
     int itemCount;
+	int itemWeightSum;
 
     unsigned char *map;
-    unsigned char *itemMap;
 
     // call after x, y, z is set
     void initMap();
@@ -57,9 +72,13 @@ struct BAG
      * Return value: true if item was added to list, false if item wasn't added because there was no space
      */
     bool tryItem(ITEM itemToCheck);
-    void putIn(const ITEM itemToInclude, const int bitShifts);
+    void putIn(const ITEM itemToInclude, const int bitShifts, const unsigned char *itemMap);
 };
 
-// 함수
 // functions
 void getInput();
+
+// sort by bag volume descending
+void sort(BAG* bags, const int bagCount);
+// returns 0 if the first bag has bigger volume 1 otherwise
+int compare(const BAG& bag1, const BAG& bag2);

@@ -2,15 +2,13 @@
 
 #include "input.h"
 #include "defineTable.h"
+#include "branchAndBound.h"
 
-#define INPUTSIZE 4
+#define INPUTSIZE 2
 
 int main()
 {
-    initTables();
-
     // ======================= 임시로 입력 고정 =====================================
-    /*
     int inputSize = INPUTSIZE;
 
     // bag init
@@ -44,6 +42,7 @@ int main()
         bags[i].y = bagy[i];
         bags[i].z = bagz[i];
         bags[i].maxCapacity = bagCap[i];
+		bags[i].initMap();
     }
 
     // item init
@@ -79,146 +78,23 @@ int main()
         items[i].weight = weightInputs[i];
     }
 
-    int a, b;
-    std::cin >> a >> b;
-    int k = shiftMap8bit[valueToKey[a]][b];
-    //int k = shiftMapByte[valueToKey[a]][b];
-    std::cout << k << '\n';
-
     // ===============================================================================
 
-    // 입력받기
     // get input
 
-    // 그리디
+	// sort
+	sort(bags, INPUTSIZE);
+
     // put into greedy
 
-    // 다이나믹프로그래밍
     // put into dp
 
-    // 브랜치&바운드
     // put into B&B
+	getMinBagCount(items, bags, inputSize, inputSize);
 
     // free whole ITEMLIST
     delete[] bags;
     delete[] items;
-    */
-
-    BAG testBag;
-    testBag.x = 10;
-    testBag.y = 9;
-    testBag.z = 8;
-
-    ITEM testItem;
-    testItem.x = 3;
-    testItem.y = 4;
-    testItem.z = 5;
-
-    ITEM testItem2;
-    testItem2.x = 7;
-    testItem2.y = 5;
-    testItem2.z = 2;
-
-    ITEM testItem3;
-    testItem3.x = 4;
-    testItem3.y = 5;
-    testItem3.z = 3;
-
-    ITEM testItem4;
-    testItem4.x = 10;
-    testItem4.y = 3;
-    testItem4.z = 4;
-
-    BAG testBag2;
-    testBag2.x = 40;
-    testBag2.y = 2;
-    testBag2.z = 3;
-
-    ITEM testItem5;
-    testItem5.x = 30;
-    testItem5.y = 1;
-    testItem5.z = 2;
-
-    ITEM testItem6;
-    testItem6.x = 20;
-    testItem6.y = 2;
-    testItem6.z = 1;
-
-    ITEM testItem7;
-    testItem7.x = 10;
-    testItem7.y = 2;
-    testItem7.z = 3;
-
-    testBag.initMap();
-    testBag2.initMap();
-
-    bool result = testBag.tryItem(testItem);
-
-    if(result)
-        std::cout << "Success!\n";
-
-    else
-        std::cout << "Something went wrong.\n";
-
-    result = testBag.tryItem(testItem);
-
-    if(result)
-        std::cout << "Success!\n";
-
-    else
-        std::cout << "Something went wrong.\n";
-
-    result = testBag.tryItem(testItem2);
-
-    if(result)
-        std::cout << "Success!\n";
-
-    else
-        std::cout << "Something went wrong.\n";
-
-    result = testBag.tryItem(testItem3);
-
-    if(result)
-        std::cout << "Success!\n";
-
-    else
-        std::cout << "Something went wrong.\n";
-
-    result = testBag.tryItem(testItem4);
-
-    if(result)
-        std::cout << "Success!\n";
-
-    else
-        std::cout << "Something went wrong.\n";
-
-    testBag.printBagMap("test4.txt");
-
-    result = testBag2.tryItem(testItem5);
-
-    if(result)
-        std::cout << "Success!\n";
-
-    else
-        std::cout << "Something went wrong.\n";
-
-    result = testBag2.tryItem(testItem6);
-
-    if(result)
-        std::cout << "Success!\n";
-
-    else
-        std::cout << "Something went wrong.\n";
-
-    result = testBag2.tryItem(testItem7);
-
-    if(result)
-        std::cout << "Success!\n";
-
-    else
-        std::cout << "Something went wrong.\n";
-
-    testBag2.printBagMap("test5.txt");
 
     return 0;
 }

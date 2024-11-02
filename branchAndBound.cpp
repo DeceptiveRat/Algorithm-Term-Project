@@ -1,10 +1,62 @@
 #include <iostream>
+#include <string>
 
 #include "branchAndBound.h"
 
-QUEUE::QUEUE(int _capacity)
+NODE::NODE()
+{
+	bagState = nullptr;
+}
+NODE::~NODE()
+{
+	delete[] bagState;
+}
+
+void NODE::initializeBagState(const BAG* listOfBags, int bagCount)
+{
+	// make sure there is only one initialization 
+	if(bagState == nullptr)
+		bagState = new BAG[bagCount];
+	else
+	{
+		printf("deleted bagState before adding new bagState!\n");
+		printf("This is not supposed to happen!\n");
+		delete[] bagState;
+	}
+
+	for(int i = 0;i<bagCount;i++)
+		bagState[i] = listOfBags[i];
+}
+
+NODE::NODE(const NODE &other)
+{
+	item = other.item;
+	currentBagUsage = other.currentBagUsage;
+	bagCount = other.bagCount;
+	initializeBagState(other.bagState, bagCount);
+}
+
+NODE& NODE::operator=(const NODE& other)
+{
+	if(this == &other)
+		return *this;
+	
+	delete[] bagState;
+
+	bagState = nullptr;
+	item = other.item;
+	currentBagUsage = other.currentBagUsage;
+	bagCount = other.bagCount;
+	initializeBagState(other.bagState, bagCount);
+	
+	return *this;
+}
+
+QUEUE::QUEUE(int _capacity, int _bagCount)
 {
 	buffer = new NODE[_capacity];
+
+	bagCount = _bagCount;
 	capacity = _capacity;
 	front=0;
 	rear=-1;
@@ -13,11 +65,12 @@ QUEUE::QUEUE(int _capacity)
 
 QUEUE::~QUEUE()
 {
+	delete[] buffer;
+
 	front =0;
 	rear=0;
 	size=0;
 	capacity=0;
-	delete[] buffer;
 }
 
 void QUEUE::push(NODE node)
@@ -26,7 +79,7 @@ void QUEUE::push(NODE node)
 		throw(std::runtime_error("Queue full!"));
 	
 	++size;
-	buffer[++rear]= node;
+	buffer[++rear] = node;
 }
 
 NODE QUEUE::pop()
@@ -46,37 +99,69 @@ bool QUEUE::isEmpty()
 		return false;
 }
 
-int bound(BAG* bagState, int level)
+int bound(const NODE getBoundOf)
 {
-	return 0;
+	return getBoundOf.currentBagUsage;
 }
 
-int getMinBagCount(const ITEM* items, const BAG* bags, int itemCount)
+int getMinBagCount(const ITEM* items, const BAG* bags, int itemCount, int bagCount)
 {
-	// sort bags by capacity descending and save to a new list
-	
-	QUEUE queue(10);	
+	QUEUE queue(40, bagCount);	
 	NODE popped, toPush;
 
+	// current worst case minimum bag usage
+	int currentMinBagUsage= itemCount;
+
 	// dummy node
-	popped.level=-1;
-	popped.bagState = nullptr;
-	popped.bagBound=500;
+	popped.item=-1;
+	popped.currentBagUsage=currentMinBagUsage;
+	popped.initializeBagState(bags, bagCount);
 	queue.push(popped);
 
-	int minBagCount=500;
 	while(!queue.isEmpty())
 	{
 		popped = queue.pop();
 		
-		// if last node
-		if(popped.level == itemCount-1)
-			continue;
-		else
-			toPush.level = popped.level+1;
+		if(popped.item != itemCount-1)
+		{
+			// try putting current item into each bag or none of them
+			// if their bounds are greater than the current minimum bag count, don't push
+			for(int i =0;i<bagCount;i++)
+			{
+				toPush.item = popped.item+1;
+				toPush.initializeBagState(popped.bagState, bagCount);
 
-		// try putting current item into each bag or none of them
-		// if their bounds are greater than the current minimum bag count, don't push
+				bool wasPutIn;
+				wasPutIn = toPush.bagState[i].tryItem(items[toPush.item]);
+				if(wasPutIn)
+				{
+					// an item was fit into a previously used bag, not a new bag
+					if(toPush.bagState[i].itemCount != 1)
+						toPush.currentBagUsage = popped.currentBagUsage - 1;
+
+					if(toPush.currentBagUsage + (itemCount - toPush.item) < currentMinBagUsage)
+						currentMinBagUsage = toPush.currentBagUsage + (itemCount-toPush.item);
+					
+					// bounding function
+					if(bound(toPush) <= currentMinBagUsage)
+						queue.push(toPush);
+				}
+			}
+		}
+		else
+		{
+			// print the bag map of each possible outcome
+			static int outcome = 0;
+			outcome++;
+			for(int i = 0;i<bagCount;++i)
+			{
+				std::string fileName = "outcome";
+				fileName+=outcome;
+				fileName += " bag";
+				fileName+=(i+1);
+				popped.bagState[i].printBagMap(fileName);
+			}
+		}
 	}
 
 	return 0;

@@ -1,0 +1,562 @@
+Reading symbols from exe...
+The program is not being run.
+1	#include <iostream>
+2	
+3	#include "input.h"
+4	#include "defineTable.h"
+5	#include "branchAndBound.h"
+6	
+7	#define INPUTSIZE 2
+8	
+9	int main()
+10	{
+11	    // ======================= 임시로 입력 고정 =====================================
+12	    int inputSize = INPUTSIZE;
+13	
+14	    // bag init
+15	    int bagx[INPUTSIZE], bagy[INPUTSIZE], bagz[INPUTSIZE], bagCap[INPUTSIZE];
+16	
+17	    bagx[0] = 20;
+18	    bagx[1] = 30;
+19	    bagx[2] = 40;
+20	    bagx[3] = 50;
+21	
+22	    bagy[0] = 30;
+23	    bagy[1] = 40;
+24	    bagy[2] = 50;
+25	    bagy[3] = 60;
+26	
+27	    bagz[0] = 10;
+28	    bagz[1] = 20;
+29	    bagz[2] = 30;
+30	    bagz[3] = 40;
+31	
+32	    bagCap[0] = 30;
+33	    bagCap[1] = 40;
+34	    bagCap[2] = 45;
+35	    bagCap[3] = 40;
+36	
+37	    BAG* bags = new BAG[inputSize];
+38	
+39	    for(int i = 0; i < inputSize; ++i)
+40	    {
+41	        bags[i].x = bagx[i];
+42	        bags[i].y = bagy[i];
+43	        bags[i].z = bagz[i];
+44	        bags[i].maxCapacity = bagCap[i];
+45	    }
+46	
+47	    // item init
+48	    int xinputs[INPUTSIZE], yinputs[INPUTSIZE], zinputs[INPUTSIZE], weightInputs[INPUTSIZE];
+49	
+50	    xinputs[0] = 4;
+51	    xinputs[1] = 7;
+52	    xinputs[2] = 3;
+53	    xinputs[3] = 13;
+54	
+55	    yinputs[0] = 8;
+56	    yinputs[1] = 3;
+57	    yinputs[2] = 4;
+58	    yinputs[3] = 15;
+59	
+60	    zinputs[0] = 4;
+61	    zinputs[1] = 7;
+62	    zinputs[2] = 1;
+63	    zinputs[3] = 9;
+64	
+65	    weightInputs[0] = 10;
+66	    weightInputs[1] = 23;
+67	    weightInputs[2] = 4;
+68	    weightInputs[3] = 103;
+69	
+70	    ITEM* items = new ITEM[inputSize];
+71	
+72	    for(int i = 0; i < inputSize; ++i)
+73	    {
+74	        items[i].x = xinputs[i];
+75	        items[i].y = yinputs[i];
+76	        items[i].z = zinputs[i];
+77	        items[i].weight = weightInputs[i];
+78	    }
+79	
+80	    // ===============================================================================
+81	
+82	    // get input
+83	
+84	    // put into greedy
+85	
+86	    // put into dp
+87	
+88	    // put into B&B
+89		getMinBagCount(items, bags, inputSize, inputSize);
+90	
+91	    // free whole ITEMLIST
+92	    delete[] bags;
+93	    delete[] items;
+94	
+95	    return 0;
+96	}
+Breakpoint 1 at 0x5b7d: file source.cpp, line 89.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at source.cpp:89
+89		getMinBagCount(items, bags, inputSize, inputSize);
+getMinBagCount (items=0x55555556f328, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:83
+83	{
+85		BAG *sortedBags = nullptr;
+86		sortedBags = new BAG[bagCount];
+87		if(sortedBags == nullptr)
+92		for(int i = 0;i<bagCount;i++)
+93			sortedBags[i] = bags[i];
+92		for(int i = 0;i<bagCount;i++)
+93			sortedBags[i] = bags[i];
+92		for(int i = 0;i<bagCount;i++)
+94		mergesort(sortedBags, 0, bagCount-1);
+96		QUEUE queue(40);	
+100		int currentMinBagUsage= itemCount;
+103		popped = new NODE;
+104		popped->item=-1;
+105		popped->currentBagUsage=currentMinBagUsage;
+106		popped->initializeBagState(sortedBags, bagCount);
+107		queue.push(popped, bagCount);
+
+Program received signal SIGSEGV, Segmentation fault.
+QUEUE::push (this=0x7fffffffd8b0, node=0x55555556fab0, bagCount=2) at branchAndBound.cpp:55
+55		buffer[rear]->item = node->item;
+
+Program terminated with signal SIGSEGV, Segmentation fault.
+The program no longer exists.
+Temporary breakpoint 2 at 0x5555555597f3: file source.cpp, line 10.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Temporary breakpoint 2, main () at source.cpp:10
+10	{
+Continuing.
+
+Breakpoint 1, main () at source.cpp:89
+89		getMinBagCount(items, bags, inputSize, inputSize);
+getMinBagCount (items=0x55555556f328, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:83
+83	{
+85		BAG *sortedBags = nullptr;
+86		sortedBags = new BAG[bagCount];
+87		if(sortedBags == nullptr)
+92		for(int i = 0;i<bagCount;i++)
+93			sortedBags[i] = bags[i];
+92		for(int i = 0;i<bagCount;i++)
+93			sortedBags[i] = bags[i];
+92		for(int i = 0;i<bagCount;i++)
+94		mergesort(sortedBags, 0, bagCount-1);
+96		QUEUE queue(40);	
+100		int currentMinBagUsage= itemCount;
+103		popped = new NODE;
+104		popped->item=-1;
+105		popped->currentBagUsage=currentMinBagUsage;
+106		popped->initializeBagState(sortedBags, bagCount);
+Breakpoint 3 at 0x555555556db6: file branchAndBound.cpp, line 106.
+Breakpoint 4 at 0x555555556db6: file branchAndBound.cpp, line 106.
+107		queue.push(popped, bagCount);
+QUEUE::push (this=0x7fffffffd8b0, node=0x55555556fab0, bagCount=2) at branchAndBound.cpp:51
+51		if(size==capacity)
+54		++size;
+55		buffer[rear]->item = node->item;
+No breakpoint at this line.
+
+Program received signal SIGSEGV, Segmentation fault.
+QUEUE::push (this=0x7fffffffd8b0, node=0x55555556fab0, bagCount=2) at branchAndBound.cpp:55
+55		buffer[rear]->item = node->item;
+Breakpoint 5 at 0x555555556a36: file branchAndBound.cpp, line 55.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 5, QUEUE::push (this=0x7fffffffd8b0, node=0x55555556fab0, bagCount=2) at branchAndBound.cpp:55
+55		buffer[rear]->item = node->item;
+$1 = -1
+$2 = (NODE **) 0x55555556f460
+0x55555556f460:	0x5556f5b0
+0x151:	Cannot access memory at address 0x151
+$3 = -1
+Reading symbols from exe...
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0000555555558a75 in BAG::tryItem (this=0x55555556fad8, itemToCheck=...) at input.cpp:358
+358	                            if((*mapPtr & ntohl(shiftedBytes)) != 0)
+Temporary breakpoint 1 at 0x555555559803: file source.cpp, line 10.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Temporary breakpoint 1, main () at source.cpp:10
+10	{
+12	    int inputSize = INPUTSIZE;
+17	    bagx[0] = 20;
+18	    bagx[1] = 30;
+19	    bagx[2] = 40;
+20	    bagx[3] = 50;
+22	    bagy[0] = 30;
+23	    bagy[1] = 40;
+24	    bagy[2] = 50;
+19	    bagx[2] = 40;
+20	    bagx[3] = 50;
+21	
+22	    bagy[0] = 30;
+23	    bagy[1] = 40;
+24	    bagy[2] = 50;
+25	    bagy[3] = 60;
+26	
+27	    bagz[0] = 10;
+28	    bagz[1] = 20;
+29	    bagz[2] = 30;
+30	    bagz[3] = 40;
+31	
+32	    bagCap[0] = 30;
+33	    bagCap[1] = 40;
+34	    bagCap[2] = 45;
+35	    bagCap[3] = 40;
+36	
+37	    BAG* bags = new BAG[inputSize];
+38	
+39	    for(int i = 0; i < inputSize; ++i)
+40	    {
+41	        bags[i].x = bagx[i];
+42	        bags[i].y = bagy[i];
+43	        bags[i].z = bagz[i];
+44	        bags[i].maxCapacity = bagCap[i];
+45	    }
+46	
+47	    // item init
+48	    int xinputs[INPUTSIZE], yinputs[INPUTSIZE], zinputs[INPUTSIZE], weightInputs[INPUTSIZE];
+49	
+50	    xinputs[0] = 4;
+51	    xinputs[1] = 7;
+52	    xinputs[2] = 3;
+53	    xinputs[3] = 13;
+54	
+55	    yinputs[0] = 8;
+56	    yinputs[1] = 3;
+57	    yinputs[2] = 4;
+58	    yinputs[3] = 15;
+59	
+60	    zinputs[0] = 4;
+61	    zinputs[1] = 7;
+62	    zinputs[2] = 1;
+63	    zinputs[3] = 9;
+64	
+65	    weightInputs[0] = 10;
+66	    weightInputs[1] = 23;
+67	    weightInputs[2] = 4;
+68	    weightInputs[3] = 103;
+69	
+70	    ITEM* items = new ITEM[inputSize];
+71	
+72	    for(int i = 0; i < inputSize; ++i)
+73	    {
+74	        items[i].x = xinputs[i];
+75	        items[i].y = yinputs[i];
+76	        items[i].z = zinputs[i];
+77	        items[i].weight = weightInputs[i];
+78	    }
+79	
+80	    // ===============================================================================
+81	
+82	    // get input
+83	
+84	    // put into greedy
+85	
+86	    // put into dp
+87	
+88	    // put into B&B
+Reading symbols from exe...
+79	{
+80		return getBoundOf.currentBagUsage;
+81	}
+82	
+83	int getMinBagCount(const ITEM* items, const BAG* bags, int itemCount, int bagCount)
+84	{
+85		// sort bags by capacity descending and save to a new list
+86		BAG *sortedBags = nullptr;
+87		sortedBags = new BAG[bagCount];
+88		if(sortedBags == nullptr)
+Breakpoint 1 at 0x2c02: file branchAndBound.cpp, line 84.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, getMinBagCount (items=0x55555556f328, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:84
+84	{
+86		BAG *sortedBags = nullptr;
+87		sortedBags = new BAG[bagCount];
+88		if(sortedBags == nullptr)
+93		for(int i = 0;i<bagCount;i++)
+94			sortedBags[i] = bags[i];
+93		for(int i = 0;i<bagCount;i++)
+94			sortedBags[i] = bags[i];
+93		for(int i = 0;i<bagCount;i++)
+95		mergesort(sortedBags, 0, bagCount-1);
+97		QUEUE queue(40);	
+101		int currentMinBagUsage= itemCount;
+104		popped = new NODE;
+105		popped->item=-1;
+106		popped->currentBagUsage=currentMinBagUsage;
+107		popped->initializeBagState(sortedBags, bagCount);
+108		queue.push(popped, bagCount);
+109		delete popped;
+111		while(!queue.isEmpty())
+113			popped = queue.pop();
+115			if(popped->item != itemCount-1)
+119				for(int i =0;i<bagCount;i++)
+121					toPush = new NODE;
+122					toPush->item = popped->item+1;
+123					toPush->initializeBagState(popped->bagState, bagCount);
+126					wasPutIn = toPush->bagState[i].tryItem(items[toPush->item]);
+
+Program received signal SIGSEGV, Segmentation fault.
+0x0000555555558a75 in BAG::tryItem (this=0x55555556fad8, itemToCheck=...) at input.cpp:358
+358	                            if((*mapPtr & ntohl(shiftedBytes)) != 0)
+Breakpoint 2 at 0x555555558a71: file input.cpp, line 358.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, getMinBagCount (items=0x55555556f328, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:84
+84	{
+Continuing.
+
+Breakpoint 2, BAG::tryItem (this=0x55555556fad8, itemToCheck=...) at input.cpp:358
+358	                            if((*mapPtr & ntohl(shiftedBytes)) != 0)
+353	                            mapPtr = (unsigned int*)(map + (checkBit / 8));
+354	                            shiftedBytes = shiftMap8bit[valueToKey[byte]][checkBit % 8];
+355	
+356	                            // check 4 bytes, which is all the bytes for this y and z
+357	                            // if it doesn't fit, go to shift
+358	                            if((*mapPtr & ntohl(shiftedBytes)) != 0)
+359	                            {
+360	                                fit = false;
+361	                                height = itemToCheck.z;
+362	                                break;
+Cannot access memory at address 0x0
+$1 = (unsigned int *) 0x0
+$2 = (unsigned short *) 0x55555556fbb0
+$3 = (unsigned int *) 0x0
+$4 = 0
+$5 = (unsigned char *) 0x0
+Reading symbols from exe...
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=<optimized out>) at ./nptl/pthread_kill.c:44
+warning: 44	./nptl/pthread_kill.c: No such file or directory
+Breakpoint 1 at 0x555555556e2e: file branchAndBound.cpp, line 113.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=<optimized out>) at ./nptl/pthread_kill.c:44
+warning: 44	./nptl/pthread_kill.c: No such file or directory
+Breakpoint 2 at 0x555555556d81: file branchAndBound.cpp, line 101.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=<optimized out>) at ./nptl/pthread_kill.c:44
+warning: 44	./nptl/pthread_kill.c: No such file or directory
+Breakpoint 3 at 0x555555556d8d: file branchAndBound.cpp, line 104.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=<optimized out>) at ./nptl/pthread_kill.c:44
+warning: 44	./nptl/pthread_kill.c: No such file or directory
+Temporary breakpoint 4 at 0x555555559803: file source.cpp, line 10.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Temporary breakpoint 4, main () at source.cpp:10
+10	{
+12	    int inputSize = INPUTSIZE;
+17	    bagx[0] = 20;
+18	    bagx[1] = 30;
+19	    bagx[2] = 40;
+20	    bagx[3] = 50;
+22	    bagy[0] = 30;
+23	    bagy[1] = 40;
+24	    bagy[2] = 50;
+25	    bagy[3] = 60;
+27	    bagz[0] = 10;
+28	    bagz[1] = 20;
+29	    bagz[2] = 30;
+30	    bagz[3] = 40;
+32	    bagCap[0] = 30;
+33	    bagCap[1] = 40;
+34	    bagCap[2] = 45;
+35	    bagCap[3] = 40;
+37	    BAG* bags = new BAG[inputSize];
+39	    for(int i = 0; i < inputSize; ++i)
+41	        bags[i].x = bagx[i];
+42	        bags[i].y = bagy[i];
+43	        bags[i].z = bagz[i];
+44	        bags[i].maxCapacity = bagCap[i];
+45			bags[i].initMap();
+39	    for(int i = 0; i < inputSize; ++i)
+41	        bags[i].x = bagx[i];
+42	        bags[i].y = bagy[i];
+43	        bags[i].z = bagz[i];
+44	        bags[i].maxCapacity = bagCap[i];
+45			bags[i].initMap();
+39	    for(int i = 0; i < inputSize; ++i)
+51	    xinputs[0] = 4;
+52	    xinputs[1] = 7;
+53	    xinputs[2] = 3;
+54	    xinputs[3] = 13;
+56	    yinputs[0] = 8;
+57	    yinputs[1] = 3;
+58	    yinputs[2] = 4;
+59	    yinputs[3] = 15;
+61	    zinputs[0] = 4;
+62	    zinputs[1] = 7;
+63	    zinputs[2] = 1;
+64	    zinputs[3] = 9;
+66	    weightInputs[0] = 10;
+67	    weightInputs[1] = 23;
+68	    weightInputs[2] = 4;
+69	    weightInputs[3] = 103;
+71	    ITEM* items = new ITEM[inputSize];
+73	    for(int i = 0; i < inputSize; ++i)
+75	        items[i].x = xinputs[i];
+76	        items[i].y = yinputs[i];
+77	        items[i].z = zinputs[i];
+78	        items[i].weight = weightInputs[i];
+73	    for(int i = 0; i < inputSize; ++i)
+75	        items[i].x = xinputs[i];
+76	        items[i].y = yinputs[i];
+77	        items[i].z = zinputs[i];
+78	        items[i].weight = weightInputs[i];
+73	    for(int i = 0; i < inputSize; ++i)
+90		getMinBagCount(items, bags, inputSize, inputSize);
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=<optimized out>) at ./nptl/pthread_kill.c:44
+warning: 44	./nptl/pthread_kill.c: No such file or directory
+
+Program terminated with signal SIGABRT, Aborted.
+The program no longer exists.
+The program is not being run.
+The program is not being run.
+The program is not being run.
+The program is not being run.
+The program is not being run.
+The program is not being run.
+The program is not being run.
+The program is not being run.
+The program is not being run.
+The program is not being run.
+Breakpoint 5 at 0x7ffff7985700: file ./nptl/pthread_kill.c, line 104.
+Breakpoint 6 at 0x555555559bb8: file source.cpp, line 90.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 6, main () at source.cpp:90
+90		getMinBagCount(items, bags, inputSize, inputSize);
+getMinBagCount (items=0x5555555701e8, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:84
+84	{
+86		BAG *sortedBags = nullptr;
+87		sortedBags = new BAG[bagCount];
+88		if(sortedBags == nullptr)
+93		for(int i = 0;i<bagCount;i++)
+94			sortedBags[i] = bags[i];
+93		for(int i = 0;i<bagCount;i++)
+94			sortedBags[i] = bags[i];
+93		for(int i = 0;i<bagCount;i++)
+95		mergesort(sortedBags, 0, bagCount-1);
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=<optimized out>) at ./nptl/pthread_kill.c:44
+warning: 44	./nptl/pthread_kill.c: No such file or directory
+
+Program terminated with signal SIGABRT, Aborted.
+The program no longer exists.
+Breakpoint 7 at 0x555555556d50: file branchAndBound.cpp, line 95.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 7, getMinBagCount (items=0x5555555701e8, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:95
+95		mergesort(sortedBags, 0, bagCount-1);
+mergesort (bags=0x555555570238, left=0, right=1) at input.cpp:471
+471		if(left == right)
+476			int center = (left + right)/2;
+478			mergesort(bags, left, center);
+479			mergesort(bags, center+1, right);
+480			merge(bags, left, center, right);
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=<optimized out>) at ./nptl/pthread_kill.c:44
+warning: 44	./nptl/pthread_kill.c: No such file or directory
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 7, getMinBagCount (items=0x5555555701e8, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:95
+95		mergesort(sortedBags, 0, bagCount-1);
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=<optimized out>) at ./nptl/pthread_kill.c:44
+warning: 44	./nptl/pthread_kill.c: No such file or directory
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 7, getMinBagCount (items=0x5555555701e8, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:95
+95		mergesort(sortedBags, 0, bagCount-1);
+mergesort (bags=0x555555570238, left=0, right=1) at input.cpp:471
+471		if(left == right)
+476			int center = (left + right)/2;
+478			mergesort(bags, left, center);
+479			mergesort(bags, center+1, right);
+480			merge(bags, left, center, right);
+merge (bags=0x555555570238, left=0, center=0, right=1) at input.cpp:485
+485	{
+487		leftSize = center - left +1;
+488		rightSize = right-center;
+489		BAG* leftArray = new BAG[leftSize];
+490		BAG* rightArray = new BAG[rightSize];
+491		leftIndex = 0;
+492		rightIndex = 0;
+493		sortedIndex = left;
+496		for(int i = 0;i<leftSize;i++)
+497			leftArray[i] = bags[i+left];
+496		for(int i = 0;i<leftSize;i++)
+498		for(int i = 0;i<rightSize;i++)
+499			rightArray[i] = bags[i+center+1];
+498		for(int i = 0;i<rightSize;i++)
+501		while(leftIndex<leftSize && rightIndex<rightSize)
+503			if(cmp(leftArray[leftIndex], rightArray[rightIndex]) == 0)
+511				bags[sortedIndex] = rightArray[rightIndex];
+512				rightIndex++;
+513				sortedIndex++;
+501		while(leftIndex<leftSize && rightIndex<rightSize)
+517		while(leftIndex<leftSize)
+519			bags[sortedIndex] = leftArray[leftIndex];
+520			leftIndex++;
+521			sortedIndex++;
+517		while(leftIndex<leftSize)
+524		while(rightIndex<rightSize)
+531		delete[] leftArray;
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=<optimized out>) at ./nptl/pthread_kill.c:44
+warning: 44	./nptl/pthread_kill.c: No such file or directory

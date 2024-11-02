@@ -29,101 +29,8 @@ ITEM::~ITEM()
     zLocation = 0;
 };
 
-ITEMLIST::ITEMLIST()
-{
-	item = nullptr;
-}
-
-ITEMLIST::~ITEMLIST()
-{
-    delete item;
-}
-
-ITEMLIST::ITEMLIST(const ITEMLIST& other)
-{
-	ITEMLIST* otherListPtr = nullptr;
-	ITEMLIST* thisListPtr = this;
-
-	addItem(*other.item);
-	otherListPtr = other.nextItemOnList;
-
-	while(otherListPtr != nullptr)
-	{
-		thisListPtr->nextItemOnList = new ITEMLIST;
-		thisListPtr = thisListPtr->nextItemOnList;
-
-		thisListPtr->addItem(*otherListPtr->item);
-		otherListPtr = otherListPtr->nextItemOnList;
-	}
-}
-
-ITEMLIST& ITEMLIST::operator=(const ITEMLIST& other)
-{
-	if(this == &other)
-		return *this;
-	
-	// delete the previous list
-	deleteList();
-
-	// copy list
-	ITEMLIST* otherListPtr = nullptr;
-	ITEMLIST* thisListPtr = this;
-
-	addItem(*other.item);
-	otherListPtr = other.nextItemOnList;
-
-	while(otherListPtr != nullptr)
-	{
-		thisListPtr->nextItemOnList = new ITEMLIST;
-		thisListPtr = thisListPtr->nextItemOnList;
-
-		thisListPtr->addItem(*otherListPtr->item);
-		otherListPtr = otherListPtr->nextItemOnList;
-	}
-
-	return *this;
-}
-
-void ITEMLIST::addItem(const ITEM itemToInclude)
-{
-	// if there is already a value, delete after alerting user
-	if(item != nullptr)
-	{
-		printf("deleted item before adding new item!\n");
-		printf("This is not supposed to happen!\n");
-		delete item;
-	}
-
-    ITEM *item = new ITEM;
-    *item = itemToInclude;
-
-    nextItemOnList = nullptr;
-}
-
-void ITEMLIST::deleteList()
-{
-	delete item;
-
-	ITEMLIST* currentItemOnListPtr = nullptr;
-	ITEMLIST* previousItemOnListPtr = nullptr;
-	previousItemOnListPtr = nextItemOnList;
-	currentItemOnListPtr = previousItemOnListPtr->nextItemOnList;
-
-	while(currentItemOnListPtr != nullptr)
-	{
-		delete previousItemOnListPtr;
-		previousItemOnListPtr = currentItemOnListPtr;
-		currentItemOnListPtr = currentItemOnListPtr->nextItemOnList;
-	}
-
-	delete previousItemOnListPtr;
-	
-	nextItemOnList = nullptr;
-}
-
 BAG::BAG()
 {
-	itemsInside = nullptr;
 	map = nullptr;
 };
 
@@ -133,23 +40,19 @@ BAG::~BAG()
     y = 0;
     z = 0;
     maxCapacity = 0;
-	if(itemsInside != nullptr)
-	{
-		itemsInside->deleteList();
-		delete itemsInside;
-	}
     delete[] map;
+	map = nullptr;
 };
 
 BAG::BAG(const BAG& other)
 {
+	map = nullptr;
 	x = other.x;
 	y = other.y;
 	z = other.z;
 	maxCapacity = other.maxCapacity;
 	itemCount = other.itemCount;
 	itemWeightSum = other.itemWeightSum;
-	itemsInside = other.itemsInside;
 	initMap();
 }
 
@@ -159,12 +62,8 @@ BAG& BAG::operator=(const BAG& other)
 		return *this;
 	
 	// delete resources
-	if(itemsInside != nullptr)
-	{
-		itemsInside->deleteList();
-		delete itemsInside;
-	}
 	delete[] map;
+	map = nullptr;
 
 	// copy
 	x = other.x;
@@ -173,7 +72,6 @@ BAG& BAG::operator=(const BAG& other)
 	maxCapacity = other.maxCapacity;
 	itemCount = other.itemCount;
 	itemWeightSum = other.itemWeightSum;
-	itemsInside = other.itemsInside;
 	initMap();
 
 	return *this;
@@ -188,6 +86,7 @@ void BAG::initMap()
 		printf("deleted map before adding new map!\n");
 		printf("This is not supposed to happen!\n");
 		delete[] map;
+		map = nullptr;
 	}
 
     int size = (x * y * z - 1) / 8 + 1;

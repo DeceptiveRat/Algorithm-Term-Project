@@ -24,24 +24,6 @@ struct ITEM
     int bagNumber, xLocation, yLocation, zLocation;
 };
 
-struct ITEMLIST
-{
-	ITEMLIST();
-	~ITEMLIST();
-
-	// copy operators
-	ITEMLIST(const ITEMLIST& other);
-	ITEMLIST& operator=(const ITEMLIST& other);
-
-	void addItem(const ITEM itemToInclude);
-	// deletes item and all the items after this in the list
-	// **warning** doesn't delete itself so it must be manually deleted
-	void deleteList();
-
-	ITEM* item;
-	ITEMLIST* nextItemOnList;
-};
-
 struct BAG
 {
     BAG();
@@ -54,8 +36,6 @@ struct BAG
 	BAG& operator=(const BAG& other);
 
     int x, y, z, maxCapacity;
-
-    ITEMLIST* itemsInside;
     int itemCount;
 	int itemWeightSum;
 

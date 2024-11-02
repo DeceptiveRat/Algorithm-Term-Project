@@ -10,26 +10,26 @@ NODE::NODE()
 NODE::~NODE()
 {
 	delete[] bagState;
+	bagState = nullptr;
 }
 
 void NODE::initializeBagState(const BAG* listOfBags, int bagCount)
 {
 	// make sure there is only one initialization 
-	if(bagState == nullptr)
-		bagState = new BAG[bagCount];
-	else
+	if(bagState != nullptr)
 	{
-		printf("deleted bagState before adding new bagState!\n");
-		printf("This is not supposed to happen!\n");
 		delete[] bagState;
+		bagState = nullptr;
 	}
 
+	bagState = new BAG[bagCount];
 	for(int i = 0;i<bagCount;i++)
 		bagState[i] = listOfBags[i];
 }
 
 NODE::NODE(const NODE &other)
 {
+	bagState = nullptr;
 	item = other.item;
 	currentBagUsage = other.currentBagUsage;
 	bagCount = other.bagCount;
@@ -42,8 +42,8 @@ NODE& NODE::operator=(const NODE& other)
 		return *this;
 	
 	delete[] bagState;
-
 	bagState = nullptr;
+
 	item = other.item;
 	currentBagUsage = other.currentBagUsage;
 	bagCount = other.bagCount;
@@ -66,6 +66,7 @@ QUEUE::QUEUE(int _capacity, int _bagCount)
 QUEUE::~QUEUE()
 {
 	delete[] buffer;
+	buffer = nullptr;
 
 	front =0;
 	rear=0;

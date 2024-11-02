@@ -73,6 +73,13 @@ class displayQueue(gdb.Command):
 			gdb.execute(f"print queue.buffer[{index}]")
 			for j in range(int(arguments[1])):
 				gdb.execute(f"print queue.buffer[{index}].bagState[{j}]")
+				gdb.execute(f"set $current = queue.buffer[{index}].bagState[{j}].firstItemPtr")
+				while True:
+					current = gdb.parse_and_eval("$current")
+					if current == 0:
+						break
+					gdb.execute(f"print $current->item")
+					gdb.execute(f"set $current = $current->nextItemOnList")
 
 printItemlist()
 printBaglist()

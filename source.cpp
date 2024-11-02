@@ -40,10 +40,7 @@ int main()
 
     for(int i = 0; i < inputSize; ++i)
     {
-        bags[i].x = bagx[i];
-        bags[i].y = bagy[i];
-        bags[i].z = bagz[i];
-        bags[i].maxCapacity = bagCap[i];
+		bags[i].setAttribute(bagx[i], bagy[i], bagz[i], bagCap[i]);
 		bags[i].initMap();
     }
 

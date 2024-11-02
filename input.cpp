@@ -29,6 +29,106 @@ ITEM::~ITEM()
     zLocation = 0;
 };
 
+ITEMLIST::ITEMLIST()
+{
+	item = nullptr;
+	nextItemOnList = nullptr;
+}
+
+ITEMLIST::~ITEMLIST()
+{
+    delete item;
+}
+
+ITEMLIST::ITEMLIST(const ITEMLIST& other)
+{
+	ITEMLIST* otherListPtr = nullptr;
+	ITEMLIST* thisListPtr = this;
+
+	addItemToList(*other.item);
+	otherListPtr = other.nextItemOnList;
+
+	while(otherListPtr != nullptr)
+	{
+		thisListPtr->nextItemOnList = new ITEMLIST;
+		thisListPtr = thisListPtr->nextItemOnList;
+
+		thisListPtr->addItemToList(*otherListPtr->item);
+		otherListPtr = otherListPtr->nextItemOnList;
+	}
+
+	thisListPtr->nextItemOnList = nullptr;
+}
+
+ITEMLIST& ITEMLIST::operator=(const ITEMLIST& other)
+{
+	if(this == &other)
+		return *this;
+	
+	// delete the previous list
+	deleteList();
+
+	// copy list
+	ITEMLIST* otherListPtr = nullptr;
+	ITEMLIST* thisListPtr = this;
+
+	addItemToList(*other.item);
+	otherListPtr = other.nextItemOnList;
+
+	while(otherListPtr != nullptr)
+	{
+		thisListPtr->nextItemOnList = new ITEMLIST;
+		thisListPtr = thisListPtr->nextItemOnList;
+
+		thisListPtr->addItemToList(*otherListPtr->item);
+		otherListPtr = otherListPtr->nextItemOnList;
+	}
+
+	thisListPtr->nextItemOnList = nullptr;
+
+	return *this;
+}
+
+void ITEMLIST::addItemToList(const ITEM itemToInclude)
+{
+	// if there is already a value, delete after alerting user
+	if(item != nullptr)
+	{
+		printf("deleted item before adding new item!\n");
+		printf("This is not supposed to happen!\n");
+		delete item;
+	}
+
+    item = new ITEM;
+    *item = itemToInclude;
+
+    nextItemOnList = nullptr;
+}
+
+void ITEMLIST::deleteList()
+{
+	delete item;
+
+	ITEMLIST* currentItemOnListPtr = nullptr;
+	ITEMLIST* previousItemOnListPtr = nullptr;
+	previousItemOnListPtr = nextItemOnList;
+	if(previousItemOnListPtr != nullptr)
+	{
+		currentItemOnListPtr = previousItemOnListPtr->nextItemOnList;
+
+		while(currentItemOnListPtr != nullptr)
+		{
+			delete previousItemOnListPtr;
+			previousItemOnListPtr = currentItemOnListPtr;
+			currentItemOnListPtr = currentItemOnListPtr->nextItemOnList;
+		}
+	}
+
+	delete previousItemOnListPtr;
+	
+	nextItemOnList = nullptr;
+}
+
 BAG::BAG()
 {
 	x = -1;
@@ -37,6 +137,8 @@ BAG::BAG()
 	maxCapacity = -1;
 	itemCount = 0;
 	itemWeightSum = 0;
+	firstItemPtr = nullptr;
+	lastItemPtr = nullptr;
     map = nullptr;
 };
 
@@ -46,6 +148,13 @@ BAG::~BAG()
     y = 0;
     z = 0;
     maxCapacity = 0;
+	if(firstItemPtr != nullptr)
+	{
+		firstItemPtr->deleteList();
+		delete firstItemPtr;
+		firstItemPtr = nullptr;
+		lastItemPtr = nullptr;
+	}
     delete[] map;
     map = nullptr;
 };
@@ -59,6 +168,23 @@ BAG::BAG(const BAG& other)
     maxCapacity = other.maxCapacity;
     itemCount = other.itemCount;
     itemWeightSum = other.itemWeightSum;
+
+	// copy itemlist
+	if(other.firstItemPtr != 0)
+	{
+		firstItemPtr = new ITEMLIST();
+		*firstItemPtr = *other.firstItemPtr;
+		ITEMLIST* ptr = firstItemPtr;
+		while(ptr->nextItemOnList !=nullptr)
+			ptr= ptr->nextItemOnList;
+		lastItemPtr = ptr;
+	}
+	else
+	{
+		firstItemPtr = nullptr;
+		lastItemPtr = nullptr;
+	}
+
     initMap();
 }
 
@@ -78,9 +204,57 @@ BAG& BAG::operator=(const BAG& other)
     maxCapacity = other.maxCapacity;
     itemCount = other.itemCount;
     itemWeightSum = other.itemWeightSum;
+
+	// copy itemlist
+	if(other.firstItemPtr != 0)
+	{
+		firstItemPtr = new ITEMLIST();
+		*firstItemPtr = *other.firstItemPtr;
+		ITEMLIST* ptr = firstItemPtr;
+		while(ptr->nextItemOnList !=nullptr)
+			ptr= ptr->nextItemOnList;
+		lastItemPtr = ptr;
+	}
+	else
+	{
+		firstItemPtr = nullptr;
+		lastItemPtr = nullptr;
+	}
+	
     initMap();
 
     return *this;
+}
+
+int BAG::getVolume() const
+{
+	return x*y*z;
+}
+
+int BAG::getItemCount() const
+{
+	return itemCount;
+}
+
+void BAG::setAttribute(const int _x, const int _y, const int _z, const int _maxCapacity)
+{
+	x = _x;
+	y = _y;
+	z = _z;
+	maxCapacity = _maxCapacity;
+}
+
+void BAG::addItemToBag(const ITEM &itemToAdd)
+{
+	itemCount++;
+	itemWeightSum += itemToAdd.weight;
+
+	ITEMLIST* newItemInList = new ITEMLIST;
+	newItemInList->addItemToList(itemToAdd);
+	lastItemPtr = newItemInList;
+
+	if(itemCount == 1)
+		firstItemPtr = lastItemPtr;
 }
 
 // do only once
@@ -269,8 +443,6 @@ bool BAG::tryItem(ITEM itemToCheck)
                         if(fit)
                         {
                             putIn(itemToCheck, totalBitShift, itemMap);
-                            itemCount++;
-                            itemWeightSum += itemToCheck.weight;
 							delete[] itemMap;
                             return true;
                         }
@@ -354,8 +526,6 @@ bool BAG::tryItem(ITEM itemToCheck)
                     if(fit)
                     {
                         putIn(itemToCheck, totalBitShift, itemMap);
-                        itemCount++;
-                        itemWeightSum += itemToCheck.weight;
 						delete[] itemMap;
                         return true;
                     }
@@ -407,8 +577,6 @@ bool BAG::tryItem(ITEM itemToCheck)
                     if(fit)
                     {
                         putIn(itemToCheck, totalBitShift, itemMap);
-                        itemCount++;
-                        itemWeightSum += itemToCheck.weight;
 						delete[] itemMap;
                         return true;
                     }
@@ -500,6 +668,9 @@ void BAG::putIn(const ITEM itemToInclude, const int bitShifts, const unsigned ch
             }
         }
     }
+
+	// adding an item has to be atomic
+	addItemToBag(itemToInclude);
 }
 
 void getInput()
@@ -530,7 +701,7 @@ void sort(BAG* bags, const int bagCount)
 
 int compare(const BAG& bag1, const BAG& bag2)
 {
-    if(bag1.x * bag1.y * bag1.z > bag2.x * bag2.y * bag2.z)
+    if(bag1.getVolume() > bag2.getVolume())
         return 0;
 
     else

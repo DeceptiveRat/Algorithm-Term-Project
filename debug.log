@@ -1,0 +1,35 @@
+Reading symbols from exe...
+Breakpoint 1 at 0x2ef6: file branchAndBound.cpp, line 135.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, getMinBagCount (items=0x5555555711e8, bags=0x5555555702b8, itemCount=2, bagCount=2) at branchAndBound.cpp:135
+135	                toPush = popped;
+Continuing.
+
+Breakpoint 1, getMinBagCount (items=0x5555555711e8, bags=0x5555555702b8, itemCount=2, bagCount=2) at branchAndBound.cpp:135
+135	                toPush = popped;
+Continuing.
+
+Breakpoint 1, getMinBagCount (items=0x5555555711e8, bags=0x5555555702b8, itemCount=2, bagCount=2) at branchAndBound.cpp:135
+135	                toPush = popped;
+Continuing.
+
+Breakpoint 1, getMinBagCount (items=0x5555555711e8, bags=0x5555555702b8, itemCount=2, bagCount=2) at branchAndBound.cpp:135
+135	                toPush = popped;
+Continuing.
+
+Breakpoint 1, getMinBagCount (items=0x5555555711e8, bags=0x5555555702b8, itemCount=2, bagCount=2) at branchAndBound.cpp:135
+135	                toPush = popped;
+136	                toPush.item = popped.item + 1;
+139	                wasPutIn = toPush.bagState[i].tryItem(items[toPush.item]);
+141	                if(wasPutIn)
+144	                    if(toPush.bagState[i].getItemCount() != 1)
+147	                    if(toPush.currentBagUsage + (itemCount - toPush.item) < currentMinBagUsage)
+151	                    if(bound(toPush) <= currentMinBagUsage)
+152	                        queue.push(toPush);
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=<optimized out>) at ./nptl/pthread_kill.c:44
+warning: 44	./nptl/pthread_kill.c: No such file or directory

@@ -43,10 +43,10 @@ struct QUEUE
 	int rear;
 	int bagCount;
 
-	void push(NODE node);
-	NODE pop();
+	void push(NODE& node);
+	NODE& pop();
 	bool isEmpty();
 };
 
-int bound(const NODE getBoundOf);
+int bound(const NODE& getBoundOf);
 int getMinBagCount(const ITEM* items, const BAG* bags, int itemCount, int bagCount);

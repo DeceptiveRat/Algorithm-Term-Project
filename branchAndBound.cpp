@@ -77,7 +77,7 @@ QUEUE::~QUEUE()
     capacity = 0;
 }
 
-void QUEUE::push(NODE node)
+void QUEUE::push(NODE& node)
 {
     if(size == capacity)
         throw(std::runtime_error("Queue full!"));
@@ -86,7 +86,7 @@ void QUEUE::push(NODE node)
     buffer[++rear] = node;
 }
 
-NODE QUEUE::pop()
+NODE& QUEUE::pop()
 {
     if(size == 0)
         throw(std::runtime_error("Queue empty so cannot delete!"));
@@ -104,7 +104,7 @@ bool QUEUE::isEmpty()
         return false;
 }
 
-int bound(const NODE getBoundOf)
+int bound(const NODE &getBoundOf)
 {
     return getBoundOf.currentBagUsage;
 }
@@ -126,7 +126,6 @@ int getMinBagCount(const ITEM* items, const BAG* bags, int itemCount, int bagCou
     while(!queue.isEmpty())
     {
         popped = queue.pop();
-
         if(popped.item != itemCount - 1)
         {
             // try putting current item into each bag or none of them
@@ -142,7 +141,7 @@ int getMinBagCount(const ITEM* items, const BAG* bags, int itemCount, int bagCou
                 if(wasPutIn)
                 {
                     // an item was fit into a previously used bag, not a new bag
-                    if(toPush.bagState[i].itemCount != 1)
+                    if(toPush.bagState[i].getItemCount() != 1)
                         toPush.currentBagUsage = popped.currentBagUsage - 1;
 
                     if(toPush.currentBagUsage + (itemCount - toPush.item) < currentMinBagUsage)

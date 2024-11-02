@@ -24,35 +24,63 @@ struct ITEM
     int bagNumber, xLocation, yLocation, zLocation;
 };
 
+struct ITEMLIST
+{
+	ITEMLIST();
+	~ITEMLIST();
+
+	// copy operators
+	ITEMLIST(const ITEMLIST& other);
+	ITEMLIST& operator=(const ITEMLIST& other);
+
+	void addItemToList(const ITEM itemToInclude);
+	// deletes item and all the items after this in the list
+	// **warning** doesn't delete itself so it must be manually deleted
+	void deleteList();
+
+	ITEM* item;
+	ITEMLIST* nextItemOnList;
+};
+
 struct BAG
 {
+public:
     BAG();
     ~BAG();
 
-	// copy constructors
+	// copy operators
 	BAG(const BAG& other);
-
-	// copy assignment
 	BAG& operator=(const BAG& other);
 
-    int x, y, z, maxCapacity;
-    int itemCount;
-	int itemWeightSum;
+	/* getters and setters */
+	int getVolume() const;
+	int getItemCount() const;
+	void setAttribute(const int _x, const int _y, const int _z, const int _maxCapacity);
 
-    unsigned char *map;
+	/* insert item */
+	// true if able to put in
+    bool tryItem(ITEM itemToCheck);
+    void putIn(const ITEM itemToInclude, const int bitShifts, const unsigned char *itemMap);
+	void addItemToBag(const ITEM &itemToAdd);
 
+	/* map */
     // call after x, y, z is set
     void initMap();
-
     // saves the maps to a txt file
     void printItemMap(ITEM itemToPrint, std::string fileName);
     void printBagMap(std::string fileName);
 
-    /*
-     * Return value: true if item was added to list, false if item wasn't added because there was no space
-     */
-    bool tryItem(ITEM itemToCheck);
-    void putIn(const ITEM itemToInclude, const int bitShifts, const unsigned char *itemMap);
+private:
+	/* basic attributes */
+    int x, y, z, maxCapacity;
+    int itemCount;
+	int itemWeightSum;
+
+	/* itemlist */
+	ITEMLIST* firstItemPtr;
+	ITEMLIST* lastItemPtr;
+
+    unsigned char *map;
 };
 
 // functions

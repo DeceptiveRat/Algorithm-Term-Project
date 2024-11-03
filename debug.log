@@ -560,3 +560,911 @@ merge (bags=0x555555570238, left=0, center=0, right=1) at input.cpp:485
 Program received signal SIGABRT, Aborted.
 __pthread_kill_implementation (no_tid=0, signo=6, threadid=<optimized out>) at ./nptl/pthread_kill.c:44
 warning: 44	./nptl/pthread_kill.c: No such file or directory
+exea: No such file or directory.
+Reading symbols from exe...
+warning: Source file is more recent than executable.
+1	#include <iostream>
+2	
+3	#include "input.h"
+4	#include "defineTable.h"
+5	#include "branchAndBound.h"
+6	
+7	#define INPUTSIZE 2
+8	
+9	int main()
+10	{
+11	    // ======================= 임시로 입력 고정 =====================================
+12	    int inputSize = INPUTSIZE;
+13	
+14	    // bag init
+15	    int bagx[INPUTSIZE], bagy[INPUTSIZE], bagz[INPUTSIZE], bagCap[INPUTSIZE];
+16	
+17	    bagx[0] = 20;
+18	    bagx[1] = 30;
+19	    bagx[2] = 40;
+20	    bagx[3] = 50;
+21	
+22	    bagy[0] = 30;
+23	    bagy[1] = 40;
+24	    bagy[2] = 50;
+25	    bagy[3] = 60;
+26	
+27	    bagz[0] = 10;
+28	    bagz[1] = 20;
+29	    bagz[2] = 30;
+30	    bagz[3] = 40;
+31	
+32	    bagCap[0] = 30;
+33	    bagCap[1] = 40;
+34	    bagCap[2] = 45;
+35	    bagCap[3] = 40;
+36	
+37	    BAG* bags = new BAG[inputSize];
+38	
+39	    for(int i = 0; i < inputSize; ++i)
+40	    {
+41	        bags[i].x = bagx[i];
+42	        bags[i].y = bagy[i];
+43	        bags[i].z = bagz[i];
+44	        bags[i].maxCapacity = bagCap[i];
+45			bags[i].initMap();
+46	    }
+47	
+48	    // item init
+49	    int xinputs[INPUTSIZE], yinputs[INPUTSIZE], zinputs[INPUTSIZE], weightInputs[INPUTSIZE];
+50	
+51	    xinputs[0] = 4;
+52	    xinputs[1] = 7;
+53	    xinputs[2] = 3;
+54	    xinputs[3] = 13;
+55	
+56	    yinputs[0] = 8;
+57	    yinputs[1] = 3;
+58	    yinputs[2] = 4;
+59	    yinputs[3] = 15;
+60	
+61	    zinputs[0] = 4;
+62	    zinputs[1] = 7;
+63	    zinputs[2] = 1;
+64	    zinputs[3] = 9;
+65	
+66	    weightInputs[0] = 10;
+67	    weightInputs[1] = 23;
+68	    weightInputs[2] = 4;
+69	    weightInputs[3] = 103;
+70	
+71	    ITEM* items = new ITEM[inputSize];
+72	
+73	    for(int i = 0; i < inputSize; ++i)
+74	    {
+75	        items[i].x = xinputs[i];
+76	        items[i].y = yinputs[i];
+77	        items[i].z = zinputs[i];
+78	        items[i].weight = weightInputs[i];
+79	    }
+80	
+81	    // ===============================================================================
+82	
+83	    // get input
+84	
+85		// sort
+86		sort(bags, INPUTSIZE);
+87	
+88	    // put into greedy
+89	
+90	    // put into dp
+91	
+92	    // put into B&B
+93		getMinBagCount(items, bags, inputSize, inputSize);
+94	
+95	    // free whole ITEMLIST
+96	    delete[] bags;
+97	    delete[] items;
+98	
+99	    return 0;
+100	}
+End of the file was already reached, use "list ." to list the current location again
+Breakpoint 1 at 0x5bd7: file source.cpp, line 93.
+The program is not being run.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=<optimized out>) at ./nptl/pthread_kill.c:44
+warning: 44	./nptl/pthread_kill.c: No such file or directory
+
+Program terminated with signal SIGABRT, Aborted.
+The program no longer exists.
+The program is not being run.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=<optimized out>) at ./nptl/pthread_kill.c:44
+warning: 44	./nptl/pthread_kill.c: No such file or directory
+Reading symbols from exe...
+exea: No such file or directory.
+Reading symbols from exe...
+1	#include <iostream>
+2	
+3	#include "input.h"
+4	#include "defineTable.h"
+5	#include "branchAndBound.h"
+6	
+7	#define INPUTSIZE 2
+8	
+9	int main()
+10	{
+11	    // ======================= 임시로 입력 고정 =====================================
+12	    int inputSize = INPUTSIZE;
+13	
+14	    // bag init
+15	    int bagx[INPUTSIZE], bagy[INPUTSIZE], bagz[INPUTSIZE], bagCap[INPUTSIZE];
+16	
+17	    bagx[0] = 20;
+18	    bagx[1] = 30;
+19	    bagx[2] = 40;
+20	    bagx[3] = 50;
+21	
+22	    bagy[0] = 30;
+23	    bagy[1] = 40;
+24	    bagy[2] = 50;
+25	    bagy[3] = 60;
+26	
+27	    bagz[0] = 10;
+28	    bagz[1] = 20;
+29	    bagz[2] = 30;
+30	    bagz[3] = 40;
+31	
+32	    bagCap[0] = 30;
+33	    bagCap[1] = 40;
+34	    bagCap[2] = 45;
+35	    bagCap[3] = 40;
+36	
+37	    BAG* bags = new BAG[inputSize];
+38	
+39	    for(int i = 0; i < inputSize; ++i)
+40	    {
+41	        bags[i].x = bagx[i];
+42	        bags[i].y = bagy[i];
+43	        bags[i].z = bagz[i];
+44	        bags[i].maxCapacity = bagCap[i];
+45			bags[i].initMap();
+46	    }
+47	
+48	    // item init
+49	    int xinputs[INPUTSIZE], yinputs[INPUTSIZE], zinputs[INPUTSIZE], weightInputs[INPUTSIZE];
+50	
+51	    xinputs[0] = 4;
+52	    xinputs[1] = 7;
+53	    xinputs[2] = 3;
+54	    xinputs[3] = 13;
+55	
+56	    yinputs[0] = 8;
+57	    yinputs[1] = 3;
+58	    yinputs[2] = 4;
+59	    yinputs[3] = 15;
+60	
+61	    zinputs[0] = 4;
+62	    zinputs[1] = 7;
+63	    zinputs[2] = 1;
+64	    zinputs[3] = 9;
+65	
+66	    weightInputs[0] = 10;
+67	    weightInputs[1] = 23;
+68	    weightInputs[2] = 4;
+69	    weightInputs[3] = 103;
+70	
+71	    ITEM* items = new ITEM[inputSize];
+72	
+73	    for(int i = 0; i < inputSize; ++i)
+74	    {
+75	        items[i].x = xinputs[i];
+76	        items[i].y = yinputs[i];
+77	        items[i].z = zinputs[i];
+78	        items[i].weight = weightInputs[i];
+79	    }
+80	
+81	    // ===============================================================================
+82	
+83	    // get input
+84	
+85		// sort
+86		sort(bags, INPUTSIZE);
+87	
+88	    // put into greedy
+89	
+90	    // put into dp
+91	
+92	    // put into B&B
+93		getMinBagCount(items, bags, inputSize, inputSize);
+94	
+95	    // free whole ITEMLIST
+96	    delete[] bags;
+97	    delete[] items;
+98	
+99	    return 0;
+100	}
+End of the file was already reached, use "list ." to list the current location again
+Breakpoint 1 at 0x5440: file source.cpp, line 93.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at source.cpp:93
+93		getMinBagCount(items, bags, inputSize, inputSize);
+Undefined command: "setp".  Try "help".
+getMinBagCount (items=0x5555555701c8, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:109
+109	{
+110		QUEUE queue(40, bagCount);	
+111		NODE popped, toPush;
+114		int currentMinBagUsage= itemCount;
+117		popped.item=-1;
+118		popped.currentBagUsage=currentMinBagUsage;
+119		popped.initializeBagState(bags, bagCount);
+120		queue.push(popped);
+122		while(!queue.isEmpty())
+124			popped = queue.pop();
+126			if(popped.item != itemCount-1)
+130				for(int i =0;i<bagCount;i++)
+132					toPush.item = popped.item+1;
+133					toPush.initializeBagState(popped.bagState, bagCount);
+136					wasPutIn = toPush.bagState[i].tryItem(items[toPush.item]);
+
+Program received signal SIGINT, Interrupt.
+0x0000555555558aed in BAG::tryItem (this=0x5555555711a8, itemToCheck=...) at input.cpp:372
+372	            for(int j = 0; j <= yMaxShift; ++j)
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at source.cpp:93
+93		getMinBagCount(items, bags, inputSize, inputSize);
+getMinBagCount (items=0x5555555701c8, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:109
+109	{
+110		QUEUE queue(40, bagCount);	
+111		NODE popped, toPush;
+114		int currentMinBagUsage= itemCount;
+117		popped.item=-1;
+118		popped.currentBagUsage=currentMinBagUsage;
+119		popped.initializeBagState(bags, bagCount);
+120		queue.push(popped);
+122		while(!queue.isEmpty())
+124			popped = queue.pop();
+126			if(popped.item != itemCount-1)
+130				for(int i =0;i<bagCount;i++)
+132					toPush.item = popped.item+1;
+133					toPush.initializeBagState(popped.bagState, bagCount);
+136					wasPutIn = toPush.bagState[i].tryItem(items[toPush.item]);
+
+Program received signal SIGINT, Interrupt.
+0x0000555555558aed in BAG::tryItem (this=0x5555555711a8, itemToCheck=...) at input.cpp:372
+372	            for(int j = 0; j <= yMaxShift; ++j)
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at source.cpp:93
+93		getMinBagCount(items, bags, inputSize, inputSize);
+getMinBagCount (items=0x5555555701c8, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:109
+109	{
+110		QUEUE queue(40, bagCount);	
+111		NODE popped, toPush;
+114		int currentMinBagUsage= itemCount;
+117		popped.item=-1;
+118		popped.currentBagUsage=currentMinBagUsage;
+119		popped.initializeBagState(bags, bagCount);
+120		queue.push(popped);
+122		while(!queue.isEmpty())
+124			popped = queue.pop();
+126			if(popped.item != itemCount-1)
+130				for(int i =0;i<bagCount;i++)
+132					toPush.item = popped.item+1;
+133					toPush.initializeBagState(popped.bagState, bagCount);
+136					wasPutIn = toPush.bagState[i].tryItem(items[toPush.item]);
+BAG::tryItem (this=0x5555555711a8, itemToCheck=...) at input.cpp:197
+197	{
+199		if(itemWeightSum+itemToCheck.weight>maxCapacity)
+$1 = 4
+$2 = 8
+$3 = 4
+$4 = -140492432
+$5 = {x = -140492432, y = 32767, z = 1431769568, maxCapacity = 21845, itemCount = 5985, itemWeightSum = 0, map = 0x7ffff4000010 ""}
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at source.cpp:93
+93		getMinBagCount(items, bags, inputSize, inputSize);
+getMinBagCount (items=0x5555555701c8, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:109
+109	{
+110		QUEUE queue(40, bagCount);	
+111		NODE popped, toPush;
+114		int currentMinBagUsage= itemCount;
+117		popped.item=-1;
+118		popped.currentBagUsage=currentMinBagUsage;
+119		popped.initializeBagState(bags, bagCount);
+120		queue.push(popped);
+122		while(!queue.isEmpty())
+124			popped = queue.pop();
+126			if(popped.item != itemCount-1)
+130				for(int i =0;i<bagCount;i++)
+132					toPush.item = popped.item+1;
+133					toPush.initializeBagState(popped.bagState, bagCount);
+$6 = {item = 0, bagState = 0x0, currentBagUsage = -10048, bagCount = 32767}
+$7 = {item = -1, bagState = 0x5555555711f8, currentBagUsage = 2, bagCount = 0}
+Reading symbols from exe...
+1	#include <iostream>
+2	
+3	#include "input.h"
+4	#include "defineTable.h"
+5	#include "branchAndBound.h"
+6	
+7	#define INPUTSIZE 2
+8	
+9	int main()
+10	{
+11	    // ======================= 임시로 입력 고정 =====================================
+12	    int inputSize = INPUTSIZE;
+13	
+14	    // bag init
+15	    int bagx[INPUTSIZE], bagy[INPUTSIZE], bagz[INPUTSIZE], bagCap[INPUTSIZE];
+16	
+17	    bagx[0] = 20;
+18	    bagx[1] = 30;
+19	    bagx[2] = 40;
+20	    bagx[3] = 50;
+21	
+22	    bagy[0] = 30;
+23	    bagy[1] = 40;
+24	    bagy[2] = 50;
+25	    bagy[3] = 60;
+26	
+27	    bagz[0] = 10;
+28	    bagz[1] = 20;
+29	    bagz[2] = 30;
+30	    bagz[3] = 40;
+31	
+32	    bagCap[0] = 30;
+33	    bagCap[1] = 40;
+34	    bagCap[2] = 45;
+35	    bagCap[3] = 40;
+36	
+37	    BAG* bags = new BAG[inputSize];
+38	
+39	    for(int i = 0; i < inputSize; ++i)
+40	    {
+41	        bags[i].x = bagx[i];
+42	        bags[i].y = bagy[i];
+43	        bags[i].z = bagz[i];
+44	        bags[i].maxCapacity = bagCap[i];
+45			bags[i].initMap();
+46	    }
+47	
+48	    // item init
+49	    int xinputs[INPUTSIZE], yinputs[INPUTSIZE], zinputs[INPUTSIZE], weightInputs[INPUTSIZE];
+50	
+51	    xinputs[0] = 4;
+52	    xinputs[1] = 7;
+53	    xinputs[2] = 3;
+54	    xinputs[3] = 13;
+55	
+56	    yinputs[0] = 8;
+57	    yinputs[1] = 3;
+58	    yinputs[2] = 4;
+59	    yinputs[3] = 15;
+60	
+61	    zinputs[0] = 4;
+62	    zinputs[1] = 7;
+63	    zinputs[2] = 1;
+64	    zinputs[3] = 9;
+65	
+66	    weightInputs[0] = 10;
+67	    weightInputs[1] = 23;
+68	    weightInputs[2] = 4;
+69	    weightInputs[3] = 103;
+70	
+71	    ITEM* items = new ITEM[inputSize];
+72	
+73	    for(int i = 0; i < inputSize; ++i)
+74	    {
+75	        items[i].x = xinputs[i];
+76	        items[i].y = yinputs[i];
+77	        items[i].z = zinputs[i];
+78	        items[i].weight = weightInputs[i];
+79	    }
+80	
+81	    // ===============================================================================
+82	
+83	    // get input
+84	
+85		// sort
+86		sort(bags, INPUTSIZE);
+87	
+88	    // put into greedy
+89	
+90	    // put into dp
+91	
+92	    // put into B&B
+93		getMinBagCount(items, bags, inputSize, inputSize);
+94	
+95	    // free whole ITEMLIST
+96	    delete[] bags;
+97	    delete[] items;
+98	
+99	    return 0;
+100	}
+Breakpoint 1 at 0x545a: file source.cpp, line 93.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at source.cpp:93
+93		getMinBagCount(items, bags, inputSize, inputSize);
+getMinBagCount (items=0x5555555701c8, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:109
+109	{
+110		QUEUE queue(40, bagCount);	
+111		NODE popped, toPush;
+114		int currentMinBagUsage= itemCount;
+117		popped.item=-1;
+118		popped.currentBagUsage=currentMinBagUsage;
+119		popped.initializeBagState(bags, bagCount);
+120		queue.push(popped);
+122		while(!queue.isEmpty())
+124			popped = queue.pop();
+126			if(popped.item != itemCount-1)
+130				for(int i =0;i<bagCount;i++)
+132					toPush = popped;
+133					toPush.item = popped.item+1;
+134					toPush.initializeBagState(popped.bagState, bagCount);
+137					wasPutIn = toPush.bagState[i].tryItem(items[toPush.item]);
+$1 = {item = 0, bagState = 0x5555555711a8, currentBagUsage = 2, bagCount = 0}
+$2 = (BAG *) 0x5555555711a8
+$3 = {x = -140492432, y = 32767, z = 1431769568, maxCapacity = 21845, itemCount = 5985, itemWeightSum = 0, map = 0x7ffff4000010 ""}
+$4 = (const BAG *) 0x55555556f2b8
+$5 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x555555570210 ""}
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at source.cpp:93
+93		getMinBagCount(items, bags, inputSize, inputSize);
+getMinBagCount (items=0x5555555701c8, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:109
+109	{
+110		QUEUE queue(40, bagCount);	
+111		NODE popped, toPush;
+114		int currentMinBagUsage= itemCount;
+117		popped.item=-1;
+118		popped.currentBagUsage=currentMinBagUsage;
+119		popped.initializeBagState(bags, bagCount);
+$6 = (const BAG *) 0x55555556f2b8
+$7 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x555555570210 ""}
+NODE::initializeBagState (this=0x7fffffffd870, listOfBags=0x55555556f2b8, bagCount=2) at branchAndBound.cpp:19
+19		if(bagState != nullptr)
+25		bagState = new BAG[bagCount];
+$8 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x555555570210 ""}
+26		for(int i = 0;i<bagCount;i++)
+27			bagState[i] = listOfBags[i];
+26		for(int i = 0;i<bagCount;i++)
+27			bagState[i] = listOfBags[i];
+26		for(int i = 0;i<bagCount;i++)
+28	}
+No symbol "operator*" in current context.
+$9 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x5555555711f0 ""}
+$10 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x555555571db0 ""}
+$11 = {x = 3009, y = 0, z = 0, maxCapacity = 0, itemCount = 0, itemWeightSum = 0, map = 0x0}
+$12 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x555555570210 ""}
+$13 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x55555556f600 ""}
+Reading symbols from exe...
+The program is not being run.
+1	#include <iostream>
+2	
+3	#include "input.h"
+4	#include "defineTable.h"
+5	#include "branchAndBound.h"
+6	
+7	#define INPUTSIZE 2
+8	
+9	int main()
+10	{
+11	    // ======================= 임시로 입력 고정 =====================================
+12	    int inputSize = INPUTSIZE;
+13	
+14	    // bag init
+15	    int bagx[INPUTSIZE], bagy[INPUTSIZE], bagz[INPUTSIZE], bagCap[INPUTSIZE];
+16	
+17	    bagx[0] = 20;
+18	    bagx[1] = 30;
+19	    bagx[2] = 40;
+20	    bagx[3] = 50;
+21	
+22	    bagy[0] = 30;
+23	    bagy[1] = 40;
+24	    bagy[2] = 50;
+25	    bagy[3] = 60;
+26	
+27	    bagz[0] = 10;
+28	    bagz[1] = 20;
+29	    bagz[2] = 30;
+30	    bagz[3] = 40;
+31	
+32	    bagCap[0] = 30;
+33	    bagCap[1] = 40;
+34	    bagCap[2] = 45;
+35	    bagCap[3] = 40;
+36	
+37	    BAG* bags = new BAG[inputSize];
+38	
+39	    for(int i = 0; i < inputSize; ++i)
+40	    {
+41	        bags[i].x = bagx[i];
+42	        bags[i].y = bagy[i];
+43	        bags[i].z = bagz[i];
+44	        bags[i].maxCapacity = bagCap[i];
+45			bags[i].initMap();
+46	    }
+47	
+48	    // item init
+49	    int xinputs[INPUTSIZE], yinputs[INPUTSIZE], zinputs[INPUTSIZE], weightInputs[INPUTSIZE];
+50	
+51	    xinputs[0] = 4;
+52	    xinputs[1] = 7;
+53	    xinputs[2] = 3;
+54	    xinputs[3] = 13;
+55	
+56	    yinputs[0] = 8;
+57	    yinputs[1] = 3;
+58	    yinputs[2] = 4;
+59	    yinputs[3] = 15;
+60	
+61	    zinputs[0] = 4;
+62	    zinputs[1] = 7;
+63	    zinputs[2] = 1;
+64	    zinputs[3] = 9;
+65	
+66	    weightInputs[0] = 10;
+67	    weightInputs[1] = 23;
+68	    weightInputs[2] = 4;
+69	    weightInputs[3] = 103;
+70	
+71	    ITEM* items = new ITEM[inputSize];
+72	
+73	    for(int i = 0; i < inputSize; ++i)
+74	    {
+75	        items[i].x = xinputs[i];
+76	        items[i].y = yinputs[i];
+77	        items[i].z = zinputs[i];
+78	        items[i].weight = weightInputs[i];
+79	    }
+80	
+81	    // ===============================================================================
+82	
+83	    // get input
+84	
+85		// sort
+86		sort(bags, INPUTSIZE);
+87	
+88	    // put into greedy
+89	
+90	    // put into dp
+91	
+92	    // put into B&B
+93		getMinBagCount(items, bags, inputSize, inputSize);
+94	
+95	    // free whole ITEMLIST
+96	    delete[] bags;
+97	    delete[] items;
+98	
+99	    return 0;
+100	}
+Breakpoint 1 at 0x545a: file source.cpp, line 93.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at source.cpp:93
+93		getMinBagCount(items, bags, inputSize, inputSize);
+$1 = (BAG *) 0x55555556f2b8
+$2 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x555555570210 ""}
+$3 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x55555556f600 ""}
+$4 = {x = 769, y = 0, z = 1431655791, maxCapacity = 5, itemCount = -1335635868, itemWeightSum = -181295748, map = 0x0}
+Temporary breakpoint 2 at 0x5555555590c9: file source.cpp, line 10.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Temporary breakpoint 2, main () at source.cpp:10
+10	{
+main () at source.cpp:86
+86		sort(bags, INPUTSIZE);
+sort (bags=0x55555556f2b8, bagCount=2) at input.cpp:508
+508		for(int i = 0;i<bagCount;i++)
+510			maxIndex = i;
+1: maxIndex = 32767
+512			for(int j = i+1;j<bagCount;j++)
+1: maxIndex = 0
+514				if(compare(bags[j], bags[maxIndex]) == 0)
+1: maxIndex = 0
+515					maxIndex = j;
+1: maxIndex = 0
+2: bags[j] = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x55555556f600 ""}
+No symbol "maxindex" in current context.
+3: bags[maxIndex] = {x = 20, y = 30, z = 10, maxCapacity = 30, itemCount = 0, itemWeightSum = 0, map = 0x55555556f300 ""}
+512			for(int j = i+1;j<bagCount;j++)
+1: maxIndex = 1
+2: bags[j] = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x55555556f600 ""}
+3: bags[maxIndex] = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x55555556f600 ""}
+518			tempPtr = &bags[i];
+1: maxIndex = 1
+3: bags[maxIndex] = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x55555556f600 ""}
+519			bags[i] = bags[maxIndex];
+1: maxIndex = 1
+3: bags[maxIndex] = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x55555556f600 ""}
+4: bags[i] = {x = 20, y = 30, z = 10, maxCapacity = 30, itemCount = 0, itemWeightSum = 0, map = 0x55555556f300 ""}
+5: *tempPtr = {x = 20, y = 30, z = 10, maxCapacity = 30, itemCount = 0, itemWeightSum = 0, map = 0x55555556f300 ""}
+520			bags[maxIndex] = *tempPtr;
+1: maxIndex = 1
+3: bags[maxIndex] = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x55555556f600 ""}
+4: bags[i] = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x555555570210 ""}
+5: *tempPtr = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x555555570210 ""}
+Reading symbols from exe...
+1	#include <iostream>
+2	
+3	#include "input.h"
+4	#include "defineTable.h"
+5	#include "branchAndBound.h"
+6	
+7	#define INPUTSIZE 2
+8	
+9	int main()
+10	{
+11	    // ======================= 임시로 입력 고정 =====================================
+12	    int inputSize = INPUTSIZE;
+13	
+14	    // bag init
+15	    int bagx[INPUTSIZE], bagy[INPUTSIZE], bagz[INPUTSIZE], bagCap[INPUTSIZE];
+16	
+17	    bagx[0] = 20;
+18	    bagx[1] = 30;
+19	    bagx[2] = 40;
+20	    bagx[3] = 50;
+21	
+22	    bagy[0] = 30;
+23	    bagy[1] = 40;
+24	    bagy[2] = 50;
+25	    bagy[3] = 60;
+26	
+27	    bagz[0] = 10;
+28	    bagz[1] = 20;
+29	    bagz[2] = 30;
+30	    bagz[3] = 40;
+31	
+32	    bagCap[0] = 30;
+33	    bagCap[1] = 40;
+34	    bagCap[2] = 45;
+35	    bagCap[3] = 40;
+36	
+37	    BAG* bags = new BAG[inputSize];
+38	
+39	    for(int i = 0; i < inputSize; ++i)
+40	    {
+41	        bags[i].x = bagx[i];
+42	        bags[i].y = bagy[i];
+43	        bags[i].z = bagz[i];
+44	        bags[i].maxCapacity = bagCap[i];
+45			bags[i].initMap();
+46	    }
+47	
+48	    // item init
+49	    int xinputs[INPUTSIZE], yinputs[INPUTSIZE], zinputs[INPUTSIZE], weightInputs[INPUTSIZE];
+50	
+51	    xinputs[0] = 4;
+52	    xinputs[1] = 7;
+53	    xinputs[2] = 3;
+54	    xinputs[3] = 13;
+55	
+56	    yinputs[0] = 8;
+57	    yinputs[1] = 3;
+58	    yinputs[2] = 4;
+59	    yinputs[3] = 15;
+60	
+61	    zinputs[0] = 4;
+62	    zinputs[1] = 7;
+63	    zinputs[2] = 1;
+64	    zinputs[3] = 9;
+65	
+66	    weightInputs[0] = 10;
+67	    weightInputs[1] = 23;
+68	    weightInputs[2] = 4;
+69	    weightInputs[3] = 103;
+70	
+71	    ITEM* items = new ITEM[inputSize];
+72	
+73	    for(int i = 0; i < inputSize; ++i)
+74	    {
+75	        items[i].x = xinputs[i];
+76	        items[i].y = yinputs[i];
+77	        items[i].z = zinputs[i];
+78	        items[i].weight = weightInputs[i];
+79	    }
+80	
+81	    // ===============================================================================
+82	
+83	    // get input
+84	
+85		// sort
+86		sort(bags, INPUTSIZE);
+87	
+88	    // put into greedy
+89	
+90	    // put into dp
+91	
+92	    // put into B&B
+93		getMinBagCount(items, bags, inputSize, inputSize);
+94	
+95	    // free whole ITEMLIST
+96	    delete[] bags;
+97	    delete[] items;
+98	
+99	    return 0;
+100	}
+Breakpoint 1 at 0x54d7: file source.cpp, line 93.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at source.cpp:93
+93		getMinBagCount(items, bags, inputSize, inputSize);
+$1 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x555555570510 ""}
+$2 = {x = 20, y = 30, z = 10, maxCapacity = 30, itemCount = 0, itemWeightSum = 0, map = 0x55555556f300 ""}
+getMinBagCount (items=0x5555555701c8, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:109
+109	{
+110		QUEUE queue(40, bagCount);	
+111		NODE popped, toPush;
+114		int currentMinBagUsage= itemCount;
+117		popped.item=-1;
+118		popped.currentBagUsage=currentMinBagUsage;
+119		popped.initializeBagState(bags, bagCount);
+NODE::initializeBagState (this=0x7fffffffd870, listOfBags=0x55555556f2b8, bagCount=2) at branchAndBound.cpp:19
+19		if(bagState != nullptr)
+25		bagState = new BAG[bagCount];
+26		for(int i = 0;i<bagCount;i++)
+27			bagState[i] = listOfBags[i];
+26		for(int i = 0;i<bagCount;i++)
+27			bagState[i] = listOfBags[i];
+26		for(int i = 0;i<bagCount;i++)
+28	}
+$3 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x5555555710d0 ""}
+$4 = {x = 20, y = 30, z = 10, maxCapacity = 30, itemCount = 0, itemWeightSum = 0, map = 0x555555570210 ""}
+getMinBagCount (items=0x5555555701c8, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:120
+120		queue.push(popped);
+$5 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x5555555710d0 ""}
+$6 = {x = 20, y = 30, z = 10, maxCapacity = 30, itemCount = 0, itemWeightSum = 0, map = 0x555555570210 ""}
+122		while(!queue.isEmpty())
+$7 = {buffer = 0x55555556f608, capacity = 40, size = 1, front = 0, rear = 0, bagCount = 2}
+$8 = {item = -1, bagState = 0x7ffff7700018, currentBagUsage = 2, bagCount = 32767}
+$9 = {item = 0, bagState = 0x0, currentBagUsage = 0, bagCount = 0}
+$10 = (BAG *) 0x7ffff7700018
+$11 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x555555672350 ""}
+$12 = {x = 20, y = 30, z = 10, maxCapacity = 30, itemCount = 0, itemWeightSum = 0, map = 0x555555672f10 ""}
+124			popped = queue.pop();
+126			if(popped.item != itemCount-1)
+$13 = {item = -1, bagState = 0x5555558731b8, currentBagUsage = 2, bagCount = 32767}
+$14 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x5555555710d0 ""}
+$15 = {x = 20, y = 30, z = 10, maxCapacity = 30, itemCount = 0, itemWeightSum = 0, map = 0x555555570210 ""}
+130				for(int i =0;i<bagCount;i++)
+132					toPush = popped;
+133					toPush.item = popped.item+1;
+Undefined command: "toPush.bagState".  Try "help".
+$16 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x5555557731b0 ""}
+$17 = {x = 20, y = 30, z = 10, maxCapacity = 30, itemCount = 0, itemWeightSum = 0, map = 0x55555556fa20 ""}
+Reading symbols from exe...
+Breakpoint 1 at 0x54d7: file source.cpp, line 93.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at source.cpp:93
+93		getMinBagCount(items, bags, inputSize, inputSize);
+getMinBagCount (items=0x5555555701c8, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:109
+warning: Source file is more recent than executable.
+109	
+110	int getMinBagCount(const ITEM* items, const BAG* bags, int itemCount, int bagCount)
+Reading symbols from exe...
+Breakpoint 1 at 0x54d7: file source.cpp, line 93.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at source.cpp:93
+93		getMinBagCount(items, bags, inputSize, inputSize);
+getMinBagCount (items=0x5555555701c8, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:111
+111	{
+112	    QUEUE queue(40, bagCount);
+113	    NODE popped, toPush;
+116	    int currentMinBagUsage = itemCount;
+119	    popped.item = -1;
+120	    popped.currentBagUsage = currentMinBagUsage;
+121	    popped.initializeBagState(bags, bagCount);
+122	    queue.push(popped);
+124	    while(!queue.isEmpty())
+Not confirmed.
+$1 = {item = -1, bagState = 0x55555556f9d8, currentBagUsage = 2, bagCount = 32767}
+Reading symbols from exe...
+Breakpoint 1 at 0x54ed: file source.cpp, line 93.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at source.cpp:93
+93		getMinBagCount(items, bags, inputSize, inputSize);
+getMinBagCount (items=0x5555555701c8, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:112
+112	{
+113	    QUEUE queue(40, bagCount);
+114	    NODE popped, toPush;
+117	    int currentMinBagUsage = itemCount;
+120	    popped.item = -1;
+121	    popped.currentBagUsage = currentMinBagUsage;
+122	    popped.initializeBagState(bags, bagCount);
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=<optimized out>) at ./nptl/pthread_kill.c:44
+warning: 44	./nptl/pthread_kill.c: No such file or directory
+Reading symbols from exe...
+Breakpoint 1 at 0x54e9: file source.cpp, line 93.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main () at source.cpp:93
+93		getMinBagCount(items, bags, inputSize, inputSize);
+getMinBagCount (items=0x5555555701c8, bags=0x55555556f2b8, itemCount=2, bagCount=2) at branchAndBound.cpp:112
+112	{
+113	    QUEUE queue(40, bagCount);
+114	    NODE popped, toPush;
+117	    int currentMinBagUsage = itemCount;
+120	    popped.item = -1;
+121	    popped.currentBagUsage = currentMinBagUsage;
+122	    popped.initializeBagState(bags, bagCount);
+123	    queue.push(popped);
+125	    while(!queue.isEmpty())
+$1 = 2
+$2 = {item = -1, bagState = 0x55555556f9d8, currentBagUsage = 2, bagCount = 2}
+Python Exception <class 'gdb.error'>: Cannot convert value to long.
+Error occurred in Python: Cannot convert value to long.
+usage: printAny1d <array name> <indice count>
+Python Exception <class 'gdb.error'>: No symbol "bagState" in current context.
+Error occurred in Python: No symbol "bagState" in current context.
+Python Exception <class 'ValueError'>: invalid literal for int() with base 10: 'bagStaet'
+Error occurred in Python: invalid literal for int() with base 10: 'bagStaet'
+$3 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x5555555710d0 ""}
+$4 = {x = 20, y = 30, z = 10, maxCapacity = 30, itemCount = 0, itemWeightSum = 0, map = 0x555555570210 ""}
+127	        popped = queue.pop();
+129	        if(popped.item != itemCount - 1)
+$5 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x5555555710d0 ""}
+A syntax error in expression, near `]'.
+$6 = {x = 20, y = 30, z = 10, maxCapacity = 30, itemCount = 0, itemWeightSum = 0, map = 0x555555570210 ""}
+$7 = {item = -1, bagState = 0x55555556f9d8, currentBagUsage = 2, bagCount = 2}
+133	            for(int i = 0; i < bagCount; i++)
+135	                toPush = popped;
+136	                toPush.item = popped.item + 1;
+$8 = {item = -1, bagState = 0x55555556fa28, currentBagUsage = 2, bagCount = 2}
+$9 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x555555571c90 ""}
+$10 = {x = 20, y = 30, z = 10, maxCapacity = 30, itemCount = 0, itemWeightSum = 0, map = 0x55555556fa70 ""}
+137	                toPush.initializeBagState(popped.bagState, bagCount);
+140	                wasPutIn = toPush.bagState[i].tryItem(items[toPush.item]);
+$11 = {x = 30, y = 40, z = 20, maxCapacity = 40, itemCount = 0, itemWeightSum = 0, map = 0x555555571c90 ""}
+$12 = {x = 20, y = 30, z = 10, maxCapacity = 30, itemCount = 0, itemWeightSum = 0, map = 0x55555556fa70 ""}
+$13 = {item = 0, bagState = 0x55555556fa28, currentBagUsage = 2, bagCount = 2}
+142	                if(wasPutIn)
+145	                    if(toPush.bagState[i].itemCount != 1)
+148	                    if(toPush.currentBagUsage + (itemCount - toPush.item) < currentMinBagUsage)
+152	                    if(bound(toPush) <= currentMinBagUsage)
+153	                        queue.push(toPush);
+Continuing.
+
+Program received signal SIGABRT, Aborted.
+__pthread_kill_implementation (no_tid=0, signo=6, threadid=<optimized out>) at ./nptl/pthread_kill.c:44
+warning: 44	./nptl/pthread_kill.c: No such file or directory

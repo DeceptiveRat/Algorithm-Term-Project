@@ -31,7 +31,7 @@ ITEM::~ITEM()
 
 BAG::BAG()
 {
-	map = nullptr;
+    map = nullptr;
 };
 
 BAG::~BAG()
@@ -41,53 +41,53 @@ BAG::~BAG()
     z = 0;
     maxCapacity = 0;
     delete[] map;
-	map = nullptr;
+    map = nullptr;
 };
 
 BAG::BAG(const BAG& other)
 {
-	map = nullptr;
-	x = other.x;
-	y = other.y;
-	z = other.z;
-	maxCapacity = other.maxCapacity;
-	itemCount = other.itemCount;
-	itemWeightSum = other.itemWeightSum;
-	initMap();
+    map = nullptr;
+    x = other.x;
+    y = other.y;
+    z = other.z;
+    maxCapacity = other.maxCapacity;
+    itemCount = other.itemCount;
+    itemWeightSum = other.itemWeightSum;
+    initMap();
 }
 
 BAG& BAG::operator=(const BAG& other)
 {
-	if(this == &other)
-		return *this;
-	
-	// delete resources
-	delete[] map;
-	map = nullptr;
+    if(this == &other)
+        return *this;
 
-	// copy
-	x = other.x;
-	y = other.y;
-	z = other.z;
-	maxCapacity = other.maxCapacity;
-	itemCount = other.itemCount;
-	itemWeightSum = other.itemWeightSum;
-	initMap();
+    // delete resources
+    delete[] map;
+    map = nullptr;
 
-	return *this;
+    // copy
+    x = other.x;
+    y = other.y;
+    z = other.z;
+    maxCapacity = other.maxCapacity;
+    itemCount = other.itemCount;
+    itemWeightSum = other.itemWeightSum;
+    initMap();
+
+    return *this;
 }
 
 // do only once
 void BAG::initMap()
 {
-	// if there is already a value, delete after alerting user
-	if(map != nullptr)
-	{
-		printf("deleted map before adding new map!\n");
-		printf("This is not supposed to happen!\n");
-		delete[] map;
-		map = nullptr;
-	}
+    // if there is already a value, delete after alerting user
+    if(map != nullptr)
+    {
+        printf("deleted map before adding new map!\n");
+        printf("This is not supposed to happen!\n");
+        delete[] map;
+        map = nullptr;
+    }
 
     int size = (x * y * z - 1) / 8 + 1;
     map = new unsigned char[size];
@@ -105,8 +105,8 @@ void BAG::printItemMap(ITEM itemToPrint, std::string fileName)
     std::ofstream output;
     output.open(fileName);
 
-	// map of the item to print
-	unsigned char* itemMap;
+    // map of the item to print
+    unsigned char* itemMap;
     int size = (x * y * z - 1) / 8 + 1;
     itemMap = new unsigned char[size];
 
@@ -129,14 +129,14 @@ void BAG::printItemMap(ITEM itemToPrint, std::string fileName)
                 int bitShiftK = totalBitShift % 8;
                 ptr = (unsigned short*)&itemMap[totalBitShift / 8];
 
-                *ptr |= ntohs(0x00ff << (8 - bitShiftK));
+                *ptr |= ntohs((short)(0x00ff << (8 - bitShiftK)));
 
                 totalBitShift += 8;
             }
 
             ptr = (unsigned short*)&itemMap[totalBitShift / 8];
             // need to convert to big endian
-            *ptr |= ntohs(itemxBits << (8 - totalBitShift % 8));
+            *ptr |= ntohs((short)(itemxBits << (8 - totalBitShift % 8)));
         }
     }
 
@@ -196,13 +196,13 @@ void BAG::printBagMap(std::string fileName)
 bool BAG::tryItem(ITEM itemToCheck)
 {
     // check weight limit and return false if it is exceeded
-	if(itemWeightSum+itemToCheck.weight>maxCapacity)
-		return false;
+    if(itemWeightSum + itemToCheck.weight > maxCapacity)
+        return false;
 
     int totalBitShift = 0;
     int itemSize = (itemToCheck.x - 1) / 8 + 1;
 
-	unsigned char *itemMap;
+    unsigned char *itemMap;
     itemMap = new unsigned char[itemSize];
 
     int itemxBytes = itemToCheck.x / 8;
@@ -214,13 +214,13 @@ bool BAG::tryItem(ITEM itemToCheck)
         int bitShiftK = totalBitShift % 8;
         ptr = (unsigned short*)&itemMap[totalBitShift / 8];
 
-        *ptr = ntohs(0x00ff << (8 - bitShiftK));
+        *ptr = ntohs((short)(0x00ff << (8 - bitShiftK)));
 
         totalBitShift += 8;
     }
 
     ptr = (unsigned short*)&itemMap[totalBitShift / 8];
-    *ptr = ntohs(itemxBits << (8 - totalBitShift % 8));
+    *ptr = ntohs((short)(itemxBits << (8 - totalBitShift % 8)));
 
     int xMaxShift = x - itemToCheck.x;
     int yMaxShift = y - itemToCheck.y;
@@ -265,8 +265,8 @@ bool BAG::tryItem(ITEM itemToCheck)
                         if(fit)
                         {
                             putIn(itemToCheck, totalBitShift, itemMap);
-							itemCount++;
-							itemWeightSum+=itemToCheck.weight;
+                            itemCount++;
+                            itemWeightSum += itemToCheck.weight;
                             return true;
                         }
                     }
@@ -349,8 +349,8 @@ bool BAG::tryItem(ITEM itemToCheck)
                     if(fit)
                     {
                         putIn(itemToCheck, totalBitShift, itemMap);
-						itemCount++;
-						itemWeightSum+=itemToCheck.weight;
+                        itemCount++;
+                        itemWeightSum += itemToCheck.weight;
                         return true;
                     }
 
@@ -401,8 +401,8 @@ bool BAG::tryItem(ITEM itemToCheck)
                     if(fit)
                     {
                         putIn(itemToCheck, totalBitShift, itemMap);
-						itemCount++;
-						itemWeightSum+=itemToCheck.weight;
+                        itemCount++;
+                        itemWeightSum += itemToCheck.weight;
                         return true;
                     }
 
@@ -502,29 +502,30 @@ void getInput()
 
 void sort(BAG* bags, const int bagCount)
 {
-	BAG* tempPtr;
-	int maxIndex;
+    BAG tempBag;
+    int maxIndex;
 
-	for(int i = 0;i<bagCount;i++)
-	{
-		maxIndex = i;
+    for(int i = 0; i < bagCount; i++)
+    {
+        maxIndex = i;
 
-		for(int j = i+1;j<bagCount;j++)
-		{
-			if(compare(bags[j], bags[maxIndex]) == 0)
-				maxIndex = j;
-		}
+        for(int j = i + 1; j < bagCount; j++)
+        {
+            if(compare(bags[j], bags[maxIndex]) == 0)
+                maxIndex = j;
+        }
 
-		tempPtr = &bags[i];
-		bags[i] = bags[maxIndex];
-		bags[maxIndex] = *tempPtr;
-	}
+        tempBag = bags[i];
+        bags[i] = bags[maxIndex];
+        bags[maxIndex] = tempBag;
+    }
 }
 
 int compare(const BAG& bag1, const BAG& bag2)
 {
-	if(bag1.x*bag1.y*bag1.z>bag2.x*bag2.y*bag2.z)
-		return 0;
-	else
-		return 1;
+    if(bag1.x * bag1.y * bag1.z > bag2.x * bag2.y * bag2.z)
+        return 0;
+
+    else
+        return 1;
 }

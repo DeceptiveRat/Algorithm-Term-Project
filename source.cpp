@@ -15,24 +15,26 @@ int main()
     int bagx[INPUTSIZE], bagy[INPUTSIZE], bagz[INPUTSIZE], bagCap[INPUTSIZE];
 
     bagx[0] = 20;
-    bagx[1] = 30;
-    bagx[2] = 40;
-    bagx[3] = 50;
-
     bagy[0] = 30;
-    bagy[1] = 40;
-    bagy[2] = 50;
-    bagy[3] = 60;
-
     bagz[0] = 10;
-    bagz[1] = 20;
-    bagz[2] = 30;
-    bagz[3] = 40;
-
     bagCap[0] = 30;
+
+    bagx[1] = 30;
+    bagy[1] = 40;
+    bagz[1] = 20;
     bagCap[1] = 40;
+
+/*
+    bagx[2] = 40;
+    bagy[2] = 50;
+    bagz[2] = 30;
     bagCap[2] = 45;
+
+    bagx[3] = 50;
+    bagy[3] = 60;
+    bagz[3] = 40;
     bagCap[3] = 40;
+*/
 
     BAG* bags = new BAG[inputSize];
 
@@ -49,24 +51,26 @@ int main()
     int xinputs[INPUTSIZE], yinputs[INPUTSIZE], zinputs[INPUTSIZE], weightInputs[INPUTSIZE];
 
     xinputs[0] = 4;
-    xinputs[1] = 7;
-    xinputs[2] = 3;
-    xinputs[3] = 13;
-
     yinputs[0] = 8;
-    yinputs[1] = 3;
-    yinputs[2] = 4;
-    yinputs[3] = 15;
-
     zinputs[0] = 4;
-    zinputs[1] = 7;
-    zinputs[2] = 1;
-    zinputs[3] = 9;
-
     weightInputs[0] = 10;
+
+    xinputs[1] = 7;
+    yinputs[1] = 3;
+    zinputs[1] = 7;
     weightInputs[1] = 23;
+
+/*
+    xinputs[2] = 3;
+    yinputs[2] = 4;
+    zinputs[2] = 1;
     weightInputs[2] = 4;
+
+    xinputs[3] = 13;
+    yinputs[3] = 15;
+    zinputs[3] = 9;
     weightInputs[3] = 103;
+*/
 
     ITEM* items = new ITEM[inputSize];
 

@@ -3,3 +3,5 @@ exe
 Makefile
 *.txt
 *.swp
+outcome*
+debug.log

@@ -5,6 +5,7 @@
 
 NODE::NODE()
 {
+	bagCount = -1;
     bagState = nullptr;
 }
 NODE::~NODE()
@@ -163,9 +164,10 @@ int getMinBagCount(const ITEM* items, const BAG* bags, int itemCount, int bagCou
             for(int i = 0; i < bagCount; ++i)
             {
                 std::string fileName = "outcome";
-                fileName += outcome;
+                fileName += std::to_string(outcome);
                 fileName += " bag";
-                fileName += (i + 1);
+                fileName += std::to_string(i + 1);
+				fileName += ".txt";
                 popped.bagState[i].printBagMap(fileName);
             }
         }

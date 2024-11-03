@@ -31,6 +31,12 @@ ITEM::~ITEM()
 
 BAG::BAG()
 {
+	x = -1;
+	y = -1;
+	z = -1;
+	maxCapacity = -1;
+	itemCount = 0;
+	itemWeightSum = 0;
     map = nullptr;
 };
 
@@ -265,6 +271,7 @@ bool BAG::tryItem(ITEM itemToCheck)
                             putIn(itemToCheck, totalBitShift, itemMap);
                             itemCount++;
                             itemWeightSum += itemToCheck.weight;
+							delete[] itemMap;
                             return true;
                         }
                     }
@@ -349,6 +356,7 @@ bool BAG::tryItem(ITEM itemToCheck)
                         putIn(itemToCheck, totalBitShift, itemMap);
                         itemCount++;
                         itemWeightSum += itemToCheck.weight;
+						delete[] itemMap;
                         return true;
                     }
 
@@ -401,6 +409,7 @@ bool BAG::tryItem(ITEM itemToCheck)
                         putIn(itemToCheck, totalBitShift, itemMap);
                         itemCount++;
                         itemWeightSum += itemToCheck.weight;
+						delete[] itemMap;
                         return true;
                     }
 

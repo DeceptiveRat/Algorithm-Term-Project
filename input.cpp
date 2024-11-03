@@ -207,20 +207,18 @@ bool BAG::tryItem(ITEM itemToCheck)
 
     int itemxBytes = itemToCheck.x / 8;
     unsigned short itemxBits = bitTable[itemToCheck.x % 8];
-    unsigned short* ptr;
+    unsigned char* ptr;
 
     for(int k = 0; k < itemxBytes; ++k)
     {
-        int bitShiftK = totalBitShift % 8;
-        ptr = (unsigned short*)&itemMap[totalBitShift / 8];
-
-        *ptr = ntohs((short)(0x00ff << (8 - bitShiftK)));
+        ptr = &itemMap[totalBitShift / 8];
+		*ptr = 0xff;
 
         totalBitShift += 8;
     }
 
-    ptr = (unsigned short*)&itemMap[totalBitShift / 8];
-    *ptr = ntohs((short)(itemxBits << (8 - totalBitShift % 8)));
+    ptr = &itemMap[totalBitShift / 8];
+	*ptr = (unsigned char)itemxBits;
 
     int xMaxShift = x - itemToCheck.x;
     int yMaxShift = y - itemToCheck.y;

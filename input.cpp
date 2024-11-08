@@ -12,9 +12,6 @@
 // constructors and destructors
 ITEM::ITEM()
 {
-    xLocation = 0;
-    yLocation = 0;
-    zLocation = 0;
 };
 
 ITEM::~ITEM()
@@ -23,10 +20,6 @@ ITEM::~ITEM()
     y = 0;
     z = 0;
     weight = 0;
-    bagNumber = 0;
-    xLocation = 0;
-    yLocation = 0;
-    zLocation = 0;
 };
 
 ITEMLIST::ITEMLIST()
@@ -107,8 +100,6 @@ void ITEMLIST::addItemToList(const ITEM itemToInclude)
 
 void ITEMLIST::deleteList()
 {
-	delete item;
-
 	ITEMLIST* currentItemOnListPtr = nullptr;
 	ITEMLIST* previousItemOnListPtr = nullptr;
 	previousItemOnListPtr = nextItemOnList;
@@ -170,7 +161,7 @@ BAG::BAG(const BAG& other)
     itemWeightSum = other.itemWeightSum;
 
 	// copy itemlist
-	if(other.firstItemPtr != 0)
+	if(other.firstItemPtr != nullptr)
 	{
 		firstItemPtr = new ITEMLIST();
 		*firstItemPtr = *other.firstItemPtr;
@@ -186,6 +177,8 @@ BAG::BAG(const BAG& other)
 	}
 
     initMap();
+	for(int i = 0;i<(x * y * z - 1) / 8 + 1;i++)
+		map[i] = other.map[i];
 }
 
 BAG& BAG::operator=(const BAG& other)
@@ -194,6 +187,13 @@ BAG& BAG::operator=(const BAG& other)
         return *this;
 
     // delete resources
+	if(firstItemPtr != nullptr)
+	{
+		firstItemPtr->deleteList();
+		delete firstItemPtr;
+		firstItemPtr = nullptr;
+		lastItemPtr = nullptr;
+	}
     delete[] map;
     map = nullptr;
 
@@ -206,7 +206,7 @@ BAG& BAG::operator=(const BAG& other)
     itemWeightSum = other.itemWeightSum;
 
 	// copy itemlist
-	if(other.firstItemPtr != 0)
+	if(other.firstItemPtr != nullptr)
 	{
 		firstItemPtr = new ITEMLIST();
 		*firstItemPtr = *other.firstItemPtr;
@@ -222,6 +222,8 @@ BAG& BAG::operator=(const BAG& other)
 	}
 	
     initMap();
+	for(int i = 0;i<(x*y*z-1)/8+1;i++)
+		map[i] = other.map[i];
 
     return *this;
 }
@@ -249,9 +251,12 @@ void BAG::addItemToBag(const ITEM &itemToAdd)
 	itemCount++;
 	itemWeightSum += itemToAdd.weight;
 
-	ITEMLIST* newItemInList = new ITEMLIST;
-	newItemInList->addItemToList(itemToAdd);
-	lastItemPtr = newItemInList;
+	ITEMLIST* newItemOnList = new ITEMLIST;
+	newItemOnList->addItemToList(itemToAdd);
+	if(lastItemPtr !=  nullptr)
+		lastItemPtr->nextItemOnList = newItemOnList;
+
+	lastItemPtr = newItemOnList;
 
 	if(itemCount == 1)
 		firstItemPtr = lastItemPtr;
@@ -417,7 +422,7 @@ bool BAG::tryItem(ITEM itemToCheck)
                     totalBitShift = (x * y * i + x * j + k);
 
                     // fits
-                    if(map[totalBitShift / 8] & ((byte >> (totalBitShift % 8)) == 0))
+                    if((map[totalBitShift / 8] & (byte >> (totalBitShift % 8))) == 0)
                     {
                         bool fit = true;
 
@@ -427,7 +432,7 @@ bool BAG::tryItem(ITEM itemToCheck)
                             {
                                 int bitShift = totalBitShift + x * y * height + x * width;
 
-                                if(map[bitShift / 8] & ((byte >> (bitShift % 8)) == 0))
+                                if((map[bitShift / 8] & (byte >> (bitShift % 8))) == 0)
                                     continue;
 
                                 else
@@ -671,6 +676,31 @@ void BAG::putIn(const ITEM itemToInclude, const int bitShifts, const unsigned ch
 
 	// adding an item has to be atomic
 	addItemToBag(itemToInclude);
+}
+
+void BAG::printItemInfo(std::string fileName)
+{
+    std::ofstream output;
+    output.open(fileName);
+
+	ITEMLIST* ptr = firstItemPtr;
+	int count = 0;
+	while(ptr != nullptr)
+	{
+		output<<"\t";
+		output<<"item: "<<++count<<"\n";
+		output<<"\t";
+		output<<ptr->item->x<<"\n";
+		output<<"\t";
+		output<<ptr->item->y<<"\n";
+		output<<"\t";
+		output<<ptr->item->z<<"\n";
+		output<<"\t";
+		output<<ptr->item->weight<<"\n";
+		ptr = ptr->nextItemOnList;
+	}
+
+	output.close();
 }
 
 void getInput()

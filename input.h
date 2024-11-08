@@ -20,8 +20,6 @@ struct ITEM
 
     // x = width, y = length, z = height
     int x, y, z, weight;
-
-    int bagNumber, xLocation, yLocation, zLocation;
 };
 
 struct ITEMLIST
@@ -69,6 +67,8 @@ public:
     // saves the maps to a txt file
     void printItemMap(ITEM itemToPrint, std::string fileName);
     void printBagMap(std::string fileName);
+
+	void printItemInfo(std::string fileName);
 
 private:
 	/* basic attributes */

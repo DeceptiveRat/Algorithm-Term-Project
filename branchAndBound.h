@@ -17,8 +17,10 @@ struct NODE
 	int currentBagUsage;
 	int bagCount;
 
+	// which bags are currently being used
+	bool* bagUsage;
+
 	// input a list of sorted bags, and their state
-	// return false if something went wrong
 	void initializeBagState(const BAG* listOfBags, int bagCount);
 
 	// copy constructor
@@ -26,6 +28,9 @@ struct NODE
 
 	// copy assignment operator
 	NODE& operator=(const NODE& other);
+
+	// get the sum of the volume of the bags being used
+	int getUsedBagVolume();
 };
 
 struct QUEUE

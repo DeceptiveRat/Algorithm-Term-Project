@@ -5,11 +5,11 @@
 #include "branchAndBound.h"
 
 #define BAGCOUNT 3
-#define ITEMCOUNT 6
+#define ITEMCOUNT 8
 
 int main()
 {
-	// DO NOT REMOVE!
+	// DO NOT REMOVE
 	initTables();
 
     // ======================= 임시로 입력 고정 =====================================
@@ -19,19 +19,19 @@ int main()
     // bag init
     int bagx[BAGCOUNT], bagy[BAGCOUNT], bagz[BAGCOUNT], bagCap[BAGCOUNT];
 
-    bagx[0] = 3;
-    bagy[0] = 2;
-    bagz[0] = 2;
+    bagx[0] = 5;
+    bagy[0] = 3;
+    bagz[0] = 3;
     bagCap[0] = 40;
 
-    bagx[1] = 5;
-    bagy[1] = 3;
-    bagz[1] = 3;
+    bagx[1] = 10;
+    bagy[1] = 10;
+    bagz[1] = 10;
     bagCap[1] = 40;
 
-    bagx[2] = 10;
-    bagy[2] = 4;
-    bagz[2] = 4;
+    bagx[2] = 30;
+    bagy[2] = 14;
+    bagz[2] = 14;
     bagCap[2] = 45;
 
 /*
@@ -77,22 +77,20 @@ int main()
     zinputs[4] = 4;
     weightInputs[4] = 1;
 
-    xinputs[5] = 5;
-    yinputs[5] = 4;
-    zinputs[5] = 4;
+    xinputs[5] = 7;
+    yinputs[5] = 3;
+    zinputs[5] = 3;
     weightInputs[5] = 3;
 
-/*
     xinputs[6] = 10;
-    yinputs[6] = 30;
+    yinputs[6] = 10;
     zinputs[6] = 10;
-    weightInputs[6] = 40;
+    weightInputs[6] = 1;
 
-    xinputs[7] = 15;
-    yinputs[7] = 15;
-    zinputs[7] = 16;
+    xinputs[7] = 5;
+    yinputs[7] = 10;
+    zinputs[7] = 10;
     weightInputs[7] = 20;
-*/
 
     ITEM* items = new ITEM[itemCount];
 

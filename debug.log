@@ -7638,3 +7638,101 @@ BAG::tryItem (this=0x555555570668, itemToCheck=...) at input.cpp:425
 431	                            for(int width = 0; width < itemToCheck.y; ++width)
 433	                                int bitShift = totalBitShift + x * y * height + x * width;
 435	                                if(map[bitShift / 8] & ((byte >> (bitShift % 8)) == 0))
+Reading symbols from exe...
+Breakpoint 1 at 0xa422: file input.cpp, line 278.
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, BAG::initMap (this=0x50e000000048) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e000000078) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e0000000a8) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x7ffff4f09030) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e000000048) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e0000000a8) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x7ffff4f09030) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e000000078) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e0000000a8) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x7ffff4f09030) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e0000000a8) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e000000128) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e000000158) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e000000188) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e000000208) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e000000238) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e000000268) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e0000002e8) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e000000318) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e000000348) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e0000003c8) at input.cpp:278
+278	    map = new unsigned char[size];
+Continuing.
+
+Breakpoint 1, BAG::initMap (this=0x50e0000003f8) at input.cpp:278
+278	    map = new unsigned char[size];
+Reading symbols from exe...
+Starting program: /home/kimsungsu/School/Algorithm/termProject/Algorithm-Term-Project/exe 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+[Inferior 1 (process 10759) exited with code 01]
+Reading symbols from exe...

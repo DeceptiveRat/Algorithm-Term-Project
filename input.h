@@ -20,6 +20,7 @@ struct ITEM
 
     // x = width, y = length, z = height
     int x, y, z, weight;
+	int startLocation;
 };
 
 struct ITEMLIST
@@ -58,7 +59,7 @@ public:
 	/* insert item */
 	// true if able to put in
     bool tryItem(ITEM itemToCheck);
-    void putIn(const ITEM itemToInclude, const int bitShifts, const unsigned char *itemMap);
+    void putIn(ITEM itemToInclude, const int bitShifts, const unsigned char *itemMap);
 	void addItemToBag(const ITEM &itemToAdd);
 
 	/* map */

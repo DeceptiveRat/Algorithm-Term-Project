@@ -331,19 +331,23 @@ void BAG::printItemMap(ITEM itemToPrint, std::string fileName)
     for(int i = 0; i < z; ++i)
     {
         output << "Level: " << i << '\n';
+        std::cout << "Level: " << i << '\n';
 
         for(int j = 0; j < y; ++j)
         {
             for(int k = 0; k < x; ++k)
             {
                 output << ((itemMap[totalBitShift / 8] >> (7 - (totalBitShift % 8))) & 1) << " ";
+                std::cout << ((itemMap[totalBitShift / 8] >> (7 - (totalBitShift % 8))) & 1) << " ";
                 ++totalBitShift;
             }
 
             output << "\n";
+            std::cout << "\n";
         }
 
         output << "\n";
+        std::cout << "\n";
     }
 
     delete[] itemMap;
@@ -360,19 +364,85 @@ void BAG::printBagMap(std::string fileName)
     for(int i = 0; i < z; ++i)
     {
         output << "Level: " << i << '\n';
+        std::cout << "Level: " << i << '\n';
 
         for(int j = 0; j < y; ++j)
         {
             for(int k = 0; k < x; ++k)
             {
-                output << ((map[totalBitShift / 8] >> (7 - (totalBitShift % 8))) & 1) << " ";
-                ++totalBitShift;
+				bool print = (((map[totalBitShift / 8] >> (7 - (totalBitShift % 8))) & 1) == 1);
+				if(print)
+				{
+					int currentBitLocation = 0;
+					// check which item it is
+					ITEM checkingItem;
+					ITEMLIST* itemPtr = nullptr;
+					int itemIndex = 0;
+
+					for(int items = 0;items<itemCount;items++)
+					{
+						currentBitLocation = totalBitShift;
+						// get nth item
+						itemPtr = firstItemPtr;
+						for(int it = 0;it<items;it++)
+							itemPtr = itemPtr -> nextItemOnList;
+
+						checkingItem = *(itemPtr->item);
+
+						if(checkingItem.startLocation > currentBitLocation)
+							continue;
+
+						// checking z axis. If this is true, item has capacity to reach the same z axis as the current bit 
+						if(checkingItem.startLocation + checkingItem.z*(x*y) > currentBitLocation)
+						{
+							currentBitLocation %= (x*y);
+							checkingItem.startLocation %= (x*y);
+						}
+						else
+							continue;
+
+						if(checkingItem.startLocation > currentBitLocation)
+							continue;
+
+						// checking y axis
+						if(checkingItem.startLocation + checkingItem.y*(x) > currentBitLocation)
+						{
+							currentBitLocation %= x;
+							checkingItem.startLocation %= x;
+						}
+						else
+							continue;
+						
+						if(checkingItem.startLocation > currentBitLocation)
+							continue;
+
+						// check x axis
+						if(checkingItem.startLocation + checkingItem.x > currentBitLocation)
+						{
+							itemIndex = items;
+							break;
+						}
+						else
+							continue;
+					}
+
+					output << itemIndex + 1 << " ";
+					std::cout << itemIndex + 1 << " ";
+				}
+				else
+				{
+					output<< "0" << " ";
+					std::cout << "0" << " ";
+				}
+				++totalBitShift;
             }
 
             output << "\n";
+            std::cout << "\n";
         }
 
         output << "\n";
+        std::cout << "\n";
     }
 
     output.close();
@@ -597,7 +667,7 @@ bool BAG::tryItem(ITEM itemToCheck)
     return false;
 }
 
-void BAG::putIn(const ITEM itemToInclude, const int bitShifts, const unsigned char *itemMap)
+void BAG::putIn(ITEM itemToInclude, const int bitShifts, const unsigned char *itemMap)
 {
     int totalBitShift = 0;
     int itemSize = (itemToInclude.x - 1) / 8 + 1;
@@ -675,6 +745,7 @@ void BAG::putIn(const ITEM itemToInclude, const int bitShifts, const unsigned ch
     }
 
 	// adding an item has to be atomic
+	itemToInclude.startLocation = bitShifts;
 	addItemToBag(itemToInclude);
 }
 

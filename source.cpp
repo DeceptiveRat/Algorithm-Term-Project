@@ -52,8 +52,8 @@ int main()
     // item init
     int xinputs[ITEMCOUNT], yinputs[ITEMCOUNT], zinputs[ITEMCOUNT], weightInputs[ITEMCOUNT];
 
-    xinputs[0] = 1;
-    yinputs[0] = 2;
+    xinputs[0] = 30;
+    yinputs[0] = 10;
     zinputs[0] = 2;
     weightInputs[0] = 1;
 
@@ -83,13 +83,13 @@ int main()
     weightInputs[5] = 3;
 
     xinputs[6] = 10;
-    yinputs[6] = 10;
-    zinputs[6] = 10;
+    yinputs[6] = 12;
+    zinputs[6] = 3;
     weightInputs[6] = 1;
 
     xinputs[7] = 5;
-    yinputs[7] = 10;
-    zinputs[7] = 10;
+    yinputs[7] = 12;
+    zinputs[7] = 2;
     weightInputs[7] = 20;
 
     ITEM* items = new ITEM[itemCount];

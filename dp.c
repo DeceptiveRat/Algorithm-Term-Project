@@ -309,7 +309,7 @@ void findMinimumSize(Item *items, int numItems, Bag *bags, int numBags)
     }
 }
 
-int main(void)
+void activateDP()
 {
     // 물건과 가방 배열 선언
     Item items[MAX_ITEMS];
@@ -323,6 +323,7 @@ int main(void)
     // Calculate volumes for initial bags ; 초기 가방들의 부피 계산
     for (int i = 0; i < numBags; i++)
     {
+
         bags[i].volume = bags[i].width * bags[i].length * bags[i].height;
     }
 
@@ -369,6 +370,4 @@ int main(void)
 
     printf("\nSolution B (Minimum bag size):\n");
     findMinimumSize(items, numItems, bags, numBags);
-
-    return 0;
 }

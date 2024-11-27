@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:suitcase_uld/algorithm/greedy_dp/source2.dart';
+import 'package:suitcase_uld/algorithm/greedy_dp/minimum_source.dart';
 import 'package:suitcase_uld/controller/view_controller.dart';
 import 'package:suitcase_uld/test_screen.dart';
 import 'package:suitcase_uld/ui/page/main_page.dart';

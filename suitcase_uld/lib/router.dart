@@ -13,9 +13,9 @@ class CustomRouter {
     GetPage(
         name: SelectSuitCasePage.url, page: () => const SelectSuitCasePage()),
     GetPage(name: ResultPage.url, page: () => const ResultPage()),
-    GetPage(name: TestScreen.url, page: () => const TestScreen()),
+    // GetPage(name: TestScreen.url, page: () => const TestScreen()),
     GetPage(name: AddSuitCasePage.url, page: () => const AddSuitCasePage()),
-    GetPage(name: UldLayer.url, page: () => const UldLayer()),
+    // GetPage(name: UldLayer.url, page: () => const UldLayer()),
     GetPage(name: AddDirectPage.url, page: () => AddDirectPage()),
   ];
 }

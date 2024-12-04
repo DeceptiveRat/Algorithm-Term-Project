@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:suitcase_uld/algorithm/branch_and_bound.dart/branch_and_bound.dart';
 import 'package:suitcase_uld/algorithm/greedy_dp/minimum_source.dart';
+import 'package:suitcase_uld/algorithm/greedy_dp/source.dart';
 import 'package:suitcase_uld/model/item.dart';
+import 'package:suitcase_uld/ui/page/result_page.dart';
 
 import '../../controller/view_controller.dart';
 
@@ -16,9 +19,8 @@ class SelectULDPage extends StatefulWidget {
 
 class _SelectULDPageState extends State<SelectULDPage> {
   final ViewController viewController = Get.find();
-  final GreedyDPController2 greedyDPController = Get.find();
-  // final controller = ViewController();
-  // final greedyDPController = GreedyDPController();
+  final Source greedyDPController = Get.find();
+  final BranchAndBound branchAndBound = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +80,8 @@ class _SelectULDPageState extends State<SelectULDPage> {
                                 final item = viewController.uldList[index];
                                 return CheckboxListTile(
                                   title: Text(item.name),
+                                  subtitle: Text(
+                                      "${item.width.toString()} * ${item.height.toString()} * ${item.depth.toString()}"),
                                   value: item.isSelected,
                                   onChanged: (isChecked) => viewController
                                       .onUldCheckedChange(item, isChecked),
@@ -112,8 +116,9 @@ class _SelectULDPageState extends State<SelectULDPage> {
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
-                      greedyDPController.main(); // 결과를 생성하고 저장
-                      Get.toNamed('/resultPage');
+                      greedyDPController.main();
+                      branchAndBound.main();
+                      Get.to(const ResultPage());
                     },
                     child: const Text("확인"),
                   ),

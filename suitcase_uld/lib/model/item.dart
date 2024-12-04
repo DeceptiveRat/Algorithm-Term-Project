@@ -1,6 +1,7 @@
 class Item {
   final String name;
   int width, height, depth, weight;
+  int? number;
   bool isSelected;
 
   Item({

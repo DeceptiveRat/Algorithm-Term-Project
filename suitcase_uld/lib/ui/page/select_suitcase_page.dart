@@ -87,6 +87,8 @@ class _SelectSuitCasePageState extends State<SelectSuitCasePage> {
                                 final item = viewController.suitCaseList[index];
                                 return CheckboxListTile(
                                   title: Text(item.name),
+                                  subtitle: Text(
+                                      "${item.width.toString()} * ${item.height.toString()} * ${item.depth.toString()}"),
                                   value: item.isSelected,
                                   onChanged: (isChecked) => viewController
                                       .onSuitCaseCheckedChange(item, isChecked),

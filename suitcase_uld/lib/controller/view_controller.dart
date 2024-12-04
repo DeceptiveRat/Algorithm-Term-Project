@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:suitcase_uld/model/bag.dart';
 import 'package:suitcase_uld/model/item.dart';
 
 class ViewController extends GetxController {
@@ -11,18 +12,20 @@ class ViewController extends GetxController {
     Item(name: "Item6", width: 2, height: 3, depth: 2, weight: 15),
   ].obs;
   final RxList<Item> _selectedSuitCaseList = <Item>[].obs;
-  final RxList<Item> _uldList = <Item>[
-    Item(name: "Container1", width: 10, height: 15, depth: 10, weight: 15),
-    Item(name: "Container2", width: 20, height: 13, depth: 10, weight: 15),
-    Item(name: "Container3", width: 30, height: 30, depth: 10, weight: 15),
-    Item(name: "Container4", width: 10, height: 3, depth: 10, weight: 15),
+
+  final RxList<Bag> _uldList = <Bag>[
+    Bag(width: 10, height: 10, depth: 10, name: "Bag 1"),
+    Bag(width: 3, height: 7, depth: 5, name: "Bag 2"),
+    Bag(width: 5, height: 5, depth: 3, name: "Bag 3"),
+    Bag(width: 8, height: 2, depth: 7, name: "Bag 4"),
+    Bag(width: 5, height: 5, depth: 5, name: "Bag 5"),
   ].obs;
-  final RxList<Item> _selectedUldList = <Item>[].obs;
+  final RxList<Bag> _selectedUldList = <Bag>[].obs;
 
   List<Item> get suitCaseList => _suitCaseList;
   List<Item> get selectedSuitCaseList => _selectedSuitCaseList;
-  List<Item> get uldList => _uldList;
-  List<Item> get selectedUldList => _selectedUldList;
+  List<Bag> get uldList => _uldList;
+  List<Bag> get selectedUldList => _selectedUldList;
 
   void onSuitCaseCheckedChange(Item item, bool? isChecked) {
     item.isSelected = isChecked ?? false;
@@ -34,13 +37,13 @@ class ViewController extends GetxController {
     }
   }
 
-  void onUldCheckedChange(Item item, bool? isChecked) {
-    item.isSelected = isChecked ?? false;
-    if (item.isSelected) {
-      _selectedUldList.add(item);
+  void onUldCheckedChange(Bag bag, bool? isChecked) {
+    bag.isSelected = isChecked ?? false;
+    if (bag.isSelected) {
+      _selectedUldList.add(bag);
       print(_selectedUldList.length);
     } else {
-      _selectedUldList.remove(item);
+      _selectedUldList.remove(bag);
     }
   }
 

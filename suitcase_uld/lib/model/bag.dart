@@ -1,16 +1,18 @@
 class Bag {
   int width;
-  int length;
   int height;
+  int depth;
   String name;
   late int volume;
+  bool isSelected;
 
   Bag({
     required this.width,
-    required this.length,
     required this.height,
+    required this.depth,
     required this.name,
+    this.isSelected = false,
   }) {
-    volume = width * length * height;
+    volume = width * height * depth;
   }
 }
